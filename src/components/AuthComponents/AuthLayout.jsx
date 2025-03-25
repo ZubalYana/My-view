@@ -1,7 +1,9 @@
 import React from 'react'
-
+import WhiteLogo from '../WhiteLogo/WhiteLogo'
 export default function AuthLayout() {
   return (
-    <div>AuthLayout</div>
+    <div>
+        <WhiteLogo />
+    </div>
   )
 }
