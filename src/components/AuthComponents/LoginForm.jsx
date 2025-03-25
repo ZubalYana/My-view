@@ -7,7 +7,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from "@mui/material/Button";
 
 import LoginIcon from '@mui/icons-material/Login';
-export default function LoginForm() {
+export default function LoginForm({ onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
@@ -66,7 +66,12 @@ export default function LoginForm() {
 
       </Button>
 
-      <p className="text-base font-normal mt-[40px] cursor-pointer">New User? <span><span className="text-[var(--custom-purple)]">Sign up</span></span></p>
+      <p className="text-base font-normal mt-[40px] cursor-pointer">
+        New User?{" "}
+        <span className="text-[var(--custom-purple)]" onClick={onSwitch}>
+          Sign up
+        </span>
+      </p>
     </div>
   );
 }

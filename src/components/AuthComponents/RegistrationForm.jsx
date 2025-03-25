@@ -6,7 +6,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from "@mui/material/Button";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-export default function RegistrationForm() {
+export default function RegistrationForm({ onSwitch }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
@@ -64,7 +64,12 @@ export default function RegistrationForm() {
 
       </Button>
 
-      <p className="text-base font-normal mt-[30px] cursor-pointer">Already have an account? <span><span className="text-[var(--custom-purple)]">Log in</span></span></p>
+      <p className="text-base font-normal mt-[30px] cursor-pointer">
+        Already have an account?{" "}
+        <span className="text-[var(--custom-purple)]" onClick={onSwitch}>
+          Log in
+        </span>
+      </p>
     </div>
   );
 }
