@@ -9,12 +9,12 @@ const dotenv = require('dotenv').config();
 //import Routes
 
 
-// mongoose.connect(process.env.MONGODB_URI)
-//   .then(() => console.log('Connected to MongoDB'))
-//   .catch(error => {
-//     console.error('Error connecting to MongoDB:', error);
-//     process.exit(1);
-//   });
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(error => {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1);
+  });
 
 app.use(cors());
 app.use(express.json());
