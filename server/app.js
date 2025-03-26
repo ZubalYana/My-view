@@ -7,7 +7,7 @@ const dotenv = require('dotenv').config();
 const authMiddleware = require('./middleware/authMiddleware');
 
 //import Routes
-
+const authRoutes = require('./routes/authRoutes');
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -20,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 //use Routes
+app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
