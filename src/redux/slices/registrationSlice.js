@@ -1,29 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const registerUser = createAsyncThunk(
-  'registration/registerUser',
-  async ({ username, email, password }, { rejectWithValue }) => {
-    try {
-        console.log("Sending request to backend..."); // Debugging log
-      const response = await fetch('http://localhost:5000/api/register', { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password })
-      });
-
-      console.log("Server Response:", response.data); // Debugging log
-
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+    'registration/registerUser',
+    async ({ username, email, password }, { rejectWithValue }) => {
+      try {
+        const response = await fetch('http://localhost:5000/auth/register', { 
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+  
+        const data = await response.json(); 
+  
+        if (!response.ok) {
+          throw new Error(data.message || 'Registration failed');
+        }
+  
+        return data; 
+      } catch (error) {
+        return rejectWithValue(error.message);
       }
-
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
     }
-  }
-);
+  );
+  
 
 const initialState = {
   username: '',

@@ -44,9 +44,9 @@ export default function RegistrationForm({ onSwitch }) {
       return;
     }
 
-    console.log("Submitting registration:", { username, email, password }); // Debugging log
+    console.log("Submitting registration:", { username, email, password }); 
 
-    console.log("Dispatching registerUser..."); // Debugging log
+    console.log("Dispatching registerUser..."); 
     dispatch(registerUser({ username, email, password }));
   };
 

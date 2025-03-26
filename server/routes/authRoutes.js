@@ -23,12 +23,13 @@ router.post('/register', async (req, res) => {
         const user = new User({ username, email, password: hashedPassword });
         await user.save();
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).json({ message: 'User registered successfully' }); 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error' }); 
     }
 });
+
 
 //login
 router.post('/login', async (req, res) => {
