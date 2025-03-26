@@ -9,6 +9,7 @@ const path = require("path");
 //register
 router.post('/register', async (req, res) => {
     try {
+        console.log("Received registration request:", req.body);
         const { username, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });

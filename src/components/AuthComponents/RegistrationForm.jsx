@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { setUsername, setEmail, setPassword, registerUser } from '../../redux/slices/registrationSlice';
 
 export default function RegistrationForm({ onSwitch }) {
@@ -33,15 +37,20 @@ export default function RegistrationForm({ onSwitch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting registration:", { username, email, password });
+
     const passwordError = validatePassword(password);
     if (passwordError) {
       setPasswordError(passwordError);
       return;
     }
-  
+
+    console.log("Submitting registration:", { username, email, password }); // Debugging log
+
+    console.log("Dispatching registerUser..."); // Debugging log
     dispatch(registerUser({ username, email, password }));
   };
+
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
   return (
     <div className="loginForm bg-white w-[500px] min-h-[540px] h-fit shadow-2xl rounded-[20px] p-[50px] text-[var(--custom-black)]">
@@ -74,6 +83,17 @@ export default function RegistrationForm({ onSwitch }) {
         style={{ marginTop: "15px" }}
         value={password}
         onChange={handleChange('password')}
+        error={passwordError !== ""}
+        helperText={passwordError} 
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClickShowPassword} edge="end">
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
 
       {error && <p className="text-red-500 mt-[10px]">{error}</p>}

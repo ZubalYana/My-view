@@ -4,11 +4,14 @@ export const registerUser = createAsyncThunk(
   'registration/registerUser',
   async ({ username, email, password }, { rejectWithValue }) => {
     try {
+        console.log("Sending request to backend..."); // Debugging log
       const response = await fetch('http://localhost:5000/api/register', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password })
       });
+
+      console.log("Server Response:", response.data); // Debugging log
 
       const data = await response.json();
       if (!response.ok) {
