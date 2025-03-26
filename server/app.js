@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv').config();
-// const authMiddleware = require('./middleware/authMiddleware');
+const authMiddleware = require('./middleware/authMiddleware');
 
 //import Routes
 
