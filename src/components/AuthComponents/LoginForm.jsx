@@ -5,12 +5,34 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from "@mui/material/Button";
-
 import LoginIcon from '@mui/icons-material/Login';
+import { useNavigate } from 'react-router-dom';
 export default function LoginForm({ onSwitch }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
+
+  const handleLogin = async () => {
+    setError(''); 
+    try {
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Login failed');
+
+      localStorage.setItem('token', data.token);
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
   return (
     <div className="loginForm bg-white w-[500px] h-[540px] shadow-2xl rounded-[20px] p-[50px] text-[var(--custom-black)]">
@@ -20,7 +42,13 @@ export default function LoginForm({ onSwitch }) {
         <span className="text-[var(--custom-purple)] font-medium"> My View </span>
         account to continue setting and achieving.
       </p>
-      <TextField id="outlined-basic" label="Your email" variant="outlined" className="w-full" />
+      <TextField 
+        id="outlined-basic" 
+        label="Your email" 
+        variant="outlined" 
+        className="w-full" 
+        onChange={(e) => setEmail(e.target.value)} 
+      />
       <TextField
         id="password"
         label="Password"
@@ -37,6 +65,7 @@ export default function LoginForm({ onSwitch }) {
             </InputAdornment>
           ),
         }}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <p className="text-sm font-normal w-full flex justify-end mt-[10px] cursor-pointer mb-[30px]">Forgot password?</p>
       <Button
@@ -60,6 +89,7 @@ export default function LoginForm({ onSwitch }) {
       boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
     },
   }}
+  onClick={handleLogin}
 >
   <LoginIcon />
   <span>Log in</span>

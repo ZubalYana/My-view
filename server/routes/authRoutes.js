@@ -30,10 +30,10 @@ router.post('/register', async (req, res) => {
     }
 });
 
-
 //login
 router.post('/login', async (req, res) => {
     try {
+        console.log("Received login request:", req.body);
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
@@ -54,6 +54,5 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
 
 module.exports = router;
