@@ -9,7 +9,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { setUsername, setEmail, setPassword, registerUser } from '../../redux/slices/registrationSlice';
 
-export default function RegistrationForm({ onSwitch }) {
+export default function RegistrationForm({ onSwitch, onSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState('');
 
@@ -37,17 +37,18 @@ export default function RegistrationForm({ onSwitch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    
     const passwordError = validatePassword(password);
     if (passwordError) {
       setPasswordError(passwordError);
       return;
     }
 
-    console.log("Submitting registration:", { username, email, password }); 
-
-    console.log("Dispatching registerUser..."); 
-    dispatch(registerUser({ username, email, password }));
+    dispatch(registerUser({ username, email, password })).then((result) => {
+      if (registerUser.fulfilled.match(result)) {
+        onSuccess(); 
+      }
+    });
   };
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
