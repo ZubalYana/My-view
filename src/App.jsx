@@ -5,6 +5,9 @@ import { store } from "./redux/store";
 import AuthLayout from './components/AuthComponents/AuthLayout'
 import LayoutWithSidebar from './components/LayoutWithSidebar/LayoutWithSidebar';
 import Homepage from './components/Homepage/Homepage';
+import WeeklyAchievements from './components/Achievements/WeeklyAchievements';
+import MonthlyAchievements from './components/Achievements/MonthlyAchievements';
+import YearlyAchievements from './components/Achievements/YearlyAchievements';
 import ProtectedRoute from './components/ProtectedRoute';
 function App() {
 
@@ -16,6 +19,9 @@ function App() {
         {/* protected routes ( token required ) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<LayoutWithSidebar><Homepage /></LayoutWithSidebar>} />
+          <Route path="/achievements-weekly" element={<LayoutWithSidebar><WeeklyAchievements /></LayoutWithSidebar>} />
+          <Route path="/achievements-monthly" element={<LayoutWithSidebar><MonthlyAchievements /></LayoutWithSidebar>} />
+          <Route path="/achievements-yearly" element={<LayoutWithSidebar><YearlyAchievements /></LayoutWithSidebar>} />
         </Route>
 
         {/* public routes */}
