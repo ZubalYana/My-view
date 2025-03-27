@@ -35,9 +35,11 @@ export default function LoginForm({ onSwitch }) {
   };
 
   return (
-    <div className="loginForm bg-white w-[500px] h-[540px] shadow-2xl rounded-[20px] p-[50px] text-[var(--custom-black)]">
-      <h1 className="text-3xl font-bold">Log in</h1>
-      <p className="mt-[15px] text-base font-light mb-[30px]">
+    <div className="loginForm bg-white w-full h-fit mt-[20px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
+    lg:w-[500px] lg:h-[540px] lg:m-0 lg:p-[50px]
+    ">
+      <h1 className="text-2xl font-bold lg:text-3xl">Log in</h1>
+      <p className="mt-[15px] text-sm font-light mb-[20px] lg:text-base lg:mb-[30px]">
         Welcome back, we’ve been waiting for you! Log into your
         <span className="text-[var(--custom-purple)] font-medium"> My View </span>
         account to continue setting and achieving.
@@ -96,7 +98,7 @@ export default function LoginForm({ onSwitch }) {
 
       </Button>
 
-      <p className="text-base font-normal mt-[40px] cursor-pointer">
+      <p className="text-sm font-normal mt-[20px] cursor-pointer lg:mt-[40px] lg:text-base">
         New User?{" "}
         <span className="text-[var(--custom-purple)]" onClick={onSwitch}>
           Sign up

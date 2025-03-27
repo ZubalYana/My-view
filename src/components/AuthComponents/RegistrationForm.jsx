@@ -59,9 +59,11 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
   return (
-    <div className="loginForm bg-white w-[500px] min-h-[540px] h-fit shadow-2xl rounded-[20px] p-[50px] text-[var(--custom-black)]">
-      <h1 className="text-3xl font-bold">Sign up</h1>
-      <p className="mt-[15px] text-base font-light mb-[20px]">
+    <div className="loginForm bg-white w-full h-fit mt-[20px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
+    lg:w-[500px] lg:min-h-[540px] lg:h-fit lg:m-0 lg:p-[50px]
+    ">
+      <h1 className="text-2xl font-bold lg:text-3xl">Sign up</h1>
+      <p className="mt-[15px] text-sm font-light mb-[20px] lg:text-base lg:mb-[30px]">
         Don’t have an account yet? Let’s get you into <span className="text-[var(--custom-purple)] font-medium">My View</span>. 
         You’re now going to open so many opportunities!
       </p>
@@ -133,7 +135,7 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
         <span>{loading ? "Signing up..." : "Sign up"}</span>
       </Button>
 
-      <p className="text-base font-normal mt-[30px] cursor-pointer">
+      <p className="text-sm font-normal mt-[20px] cursor-pointer lg:mt-[40px] lg:text-base">
         Already have an account? <span className="text-[var(--custom-purple)]" onClick={onSwitch}>Log in</span>
       </p>
     </div>

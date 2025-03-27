@@ -25,8 +25,8 @@ export default function AuthLayout() {
   };
 
   return (
-    <div className='w-full h-screen relative overflow-hidden'>
-      <div className='w-full h-screen absolute z-50 px-[60px] py-[40px]'>
+    <div className='w-full h-screen relative lg:overflow-hidden'>
+      <div className='w-full h-screen absolute z-50 p-[20px] lg:px-[60px] lg:py-[40px]'>
         <WhiteLogo />
         <div className='w-full flex justify-end'>
           <motion.div

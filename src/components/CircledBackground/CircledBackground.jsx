@@ -25,7 +25,7 @@ export default function CircledBackground() {
   ];
 
   return (
-    <div className="w-full h-screen absolute z-0 overflow-hidden">
+    <div className="w-full h-screen absolute z-0 overflow-hidden hidden lg:flex">
       {circles.map((circle, i) => (
         <img
           key={i}
