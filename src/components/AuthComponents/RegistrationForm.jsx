@@ -46,11 +46,14 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
   
     dispatch(registerUser({ username, email, password })).then((result) => {
       if (registerUser.fulfilled.match(result)) {
-        localStorage.setItem('token', result.payload); 
+        localStorage.setItem('token', result.payload.token);
         onSuccess(); 
       }
     });
   };
+
+
+
   
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);

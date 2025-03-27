@@ -16,8 +16,6 @@ export const registerUser = createAsyncThunk(
         throw new Error(data.message || 'Registration failed');
       }
 
-      localStorage.setItem('token', data.token);
-
       return { token: data.token, userId: data.userId };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -25,14 +23,11 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-  
-
 const initialState = {
   username: '',
   email: '',
   password: '',
   token: localStorage.getItem('token') || null,
-  token: null,
   userId: null,
   loading: false,
   error: null,
