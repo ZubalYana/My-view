@@ -17,7 +17,7 @@ export default function AuthLayout() {
 
   const handleRegistrationSuccess = () => {
     setSuccessMessage("Registration successful! You can now log in.");
-    setIsLogin(true); // Switch to login form after success
+    setIsLogin(true); 
   };
 
   return (
