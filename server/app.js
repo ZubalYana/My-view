@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv').config();
 const authMiddleware = require('./middleware/authMiddleware');
+const swaggerDocs = require('./swaggerConfig');
 
 //import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -21,6 +22,9 @@ app.use(express.json());
 
 //use Routes
 app.use('/auth', authRoutes);
+
+swaggerDocs(app);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
