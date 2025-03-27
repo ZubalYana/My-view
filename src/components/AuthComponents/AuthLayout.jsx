@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom'
 import WhiteLogo from '../WhiteLogo/WhiteLogo'
 import CircledBackground from '../CircledBackground/CircledBackground'
 import LoginForm from './LoginForm'
@@ -10,7 +11,7 @@ import Snackbar from '@mui/material/Snackbar';
 export default function AuthLayout() {
   const [isLogin, setIsLogin] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
-
+  const navigate = useNavigate();
   const handleSwitch = () => {
     setIsLogin((prev) => !prev);
   };
@@ -18,6 +19,9 @@ export default function AuthLayout() {
   const handleRegistrationSuccess = () => {
     setSuccessMessage("Registration successful! You can now log in.");
     setIsLogin(true); 
+
+    navigate('/');
+
   };
 
   return (

@@ -43,13 +43,15 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
       setPasswordError(passwordError);
       return;
     }
-
+  
     dispatch(registerUser({ username, email, password })).then((result) => {
       if (registerUser.fulfilled.match(result)) {
+        localStorage.setItem('token', result.payload); 
         onSuccess(); 
       }
     });
   };
+  
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 

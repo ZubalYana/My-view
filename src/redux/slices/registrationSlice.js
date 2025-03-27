@@ -1,33 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const registerUser = createAsyncThunk(
-    'registration/registerUser',
-    async ({ username, email, password }, { rejectWithValue }) => {
-      try {
-        const response = await fetch('http://localhost:5000/auth/register', { 
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, email, password })
-        });
-  
-        const data = await response.json(); 
-  
-        if (!response.ok) {
-          throw new Error(data.message || 'Registration failed');
-        }
-  
-        return data; 
-      } catch (error) {
-        return rejectWithValue(error.message);
+  'registration/registerUser',
+  async ({ username, email, password }, { rejectWithValue }) => {
+    try {
+      const response = await fetch('http://localhost:5000/auth/register', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
       }
+
+      localStorage.setItem('token', data.token);
+
+      return { token: data.token, userId: data.userId };
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
-  );
+  }
+);
+
   
 
 const initialState = {
   username: '',
   email: '',
   password: '',
+  token: localStorage.getItem('token') || null,
   token: null,
   userId: null,
   loading: false,
@@ -42,6 +46,11 @@ const registrationSlice = createSlice({
     setUsername: (state, action) => { state.username = action.payload; },
     setEmail: (state, action) => { state.email = action.payload; },
     setPassword: (state, action) => { state.password = action.payload; },
+    logout: (state) => {
+      state.token = null;
+      state.userId = null;
+      localStorage.removeItem('token'); 
+    }
   },
   extraReducers: (builder) => {
     builder
