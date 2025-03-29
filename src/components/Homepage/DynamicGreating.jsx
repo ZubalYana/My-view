@@ -26,19 +26,19 @@ export default function DynamicGreating() {
         const currentHour = new Date().getHours();
         if (currentHour >= 5 && currentHour < 7) {
             setGreeting("Good Morning");
-            setIcon(<Sunrise size={32} />);
+            setIcon(<Sunrise size={28} />);
         } else if (currentHour < 12) {
             setGreeting("Good Morning");
-            setIcon(<Sun size={32} />);
+            setIcon(<Sun size={28} />);
         } else if (currentHour < 18) {
             setGreeting("Good Afternoon");
-            setIcon(<Sun size={32} />);
+            setIcon(<Sun size={28} />);
         } else if (currentHour < 20) {
             setGreeting("Good Evening");
-            setIcon(<Sunset size={32} />);
+            setIcon(<Sunset size={28} />);
         } else {
             setGreeting("Good Night");
-            setIcon(<Moon size={32} />);
+            setIcon(<Moon size={28} />);
         }
     }, []);
 
