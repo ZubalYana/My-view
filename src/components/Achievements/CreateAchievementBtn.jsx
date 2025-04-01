@@ -23,6 +23,8 @@ export default function CreateAchievementBtn({ onClick }) {
                     minWidth: "0",
                     minHeight: "0",
                     backgroundColor: "#5A00DA",
+                    transition: "background-color 0.3s ease, transform 0.3s ease",
+                    ":hover": { backgroundColor: "#4E00C8", transform: "scale(1.05)" },
                 }}
                 onClick={onClick}
             >
