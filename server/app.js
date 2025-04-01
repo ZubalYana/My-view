@@ -9,6 +9,7 @@ const swaggerDocs = require('./swaggerConfig');
 
 //import Routes
 const authRoutes = require('./routes/authRoutes');
+const achievementsRoutes = require('./routes/achievementsRoutes');
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -22,6 +23,8 @@ app.use(express.json());
 
 //use Routes
 app.use('/auth', authRoutes);
+app.use('/achievements', achievementsRoutes);
+
 
 swaggerDocs(app);
 
