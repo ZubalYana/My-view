@@ -5,7 +5,7 @@ const AchievementModal = require("../models/AchievementModal");
 router.post("/create-achievement", async (req, res) => {
     try {
         console.log(req.body);
-        const { actionName, repetitions, weekly, monthly, yearly, userId } = req.body;
+        const { actionName, repetitions, weekly, monthly, yearly, userId, isRegular } = req.body;
 
         if (!actionName || !repetitions || (!weekly && !monthly && !yearly)) {
             return res.status(400).json({ message: "Invalid data" });
@@ -14,9 +14,10 @@ router.post("/create-achievement", async (req, res) => {
         const newAchievement = new AchievementModal({
             actionName,
             repetitions,
-            weekly: !!weekly,
-            monthly: !!monthly,
-            yearly: !!yearly,
+            weekly,
+            monthly,
+            yearly,
+            isRegular: !!isRegular,
             user: userId,
         });
 
@@ -27,5 +28,6 @@ router.post("/create-achievement", async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
+
 
 module.exports = router;

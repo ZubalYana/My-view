@@ -6,6 +6,7 @@ const AchievementSchema = new mongoose.Schema({
     weekly: { type: Boolean, default: false },
     monthly: { type: Boolean, default: false },
     yearly: { type: Boolean, default: false },
+    isRegular: { type: Boolean, default: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     createdAt: { type: Date, default: Date.now },
 });

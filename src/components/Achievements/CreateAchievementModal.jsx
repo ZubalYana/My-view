@@ -13,6 +13,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
         weekly: false,
         monthly: false,
         yearly: false,
+        isRegular: false,
     });
 
     useEffect(() => {
@@ -23,6 +24,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             yearly: type === "yearly",
         }));
     }, [type]);
+
 
 
 
@@ -46,7 +48,6 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             const payload = JSON.parse(atob(token.split(".")[1]));
             const userId = payload.id;
 
-
             const response = await fetch("http://localhost:5000/achievements/create-achievement", {
                 method: "POST",
                 headers: {
@@ -65,6 +66,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             console.error("Error:", error);
         }
     };
+
 
     return (
         <Modal
@@ -123,13 +125,14 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={formData[type]}
-                        name={type}
+                        checked={formData.isRegular}
+                        name="isRegular"
                         onChange={handleChange}
                     />
                 }
-                label={`Set as a regular ${type} achievement`}
+                label="Mark as a regular achievement"
             />
+
 
             <Button
                 variant="contained"
