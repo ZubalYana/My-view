@@ -1,12 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, FormControlLabel } from "@mui/material";
 import Checkbox from '@mui/material/Checkbox';
 import { Plus } from "lucide-react";
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-export default function CreateAchievementModal({ isOpen, onClose }) {
+export default function CreateAchievementModal({ isOpen, onClose, type }) {
+    const [formData, setFormData] = useState({
+        actionName: "",
+        repetitions: "",
+        weekly: false,
+        monthly: false,
+        yearly: false,
+    });
+
+    useEffect(() => {
+        setFormData((prev) => ({
+            ...prev,
+            weekly: type === "weekly",
+            monthly: type === "monthly",
+            yearly: type === "yearly",
+        }));
+    }, [type]);
+
+
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+
+    const handleSubmit = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("No token found");
+                return;
+            }
+
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const userId = payload.id;
+
+
+            const response = await fetch("http://localhost:5000/achievements/create-achievement", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ ...formData, userId }),
+            });
+
+            if (response.ok) {
+                onClose();
+            } else {
+                console.error("Failed to create achievement");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     return (
         <Modal
             isOpen={isOpen}
@@ -48,18 +107,30 @@ export default function CreateAchievementModal({ isOpen, onClose }) {
                 fullWidth
                 margin="normal"
                 type="number"
+                name="repetitions"
+                value={formData.repetitions}
+                onChange={handleChange}
             />
             <TextField
                 label="What's the action you want to track? ( e.g. Exercise, Read a book )"
                 variant="outlined"
                 fullWidth
                 margin="normal"
+                name="actionName"
+                value={formData.actionName}
+                onChange={handleChange}
             />
-            <div className="flex items-center">
-                <Checkbox {...label} />
-                {/* make dynamic week/month/year here */}
-                <p className="text-sm font-light">Set this as a regular achievement for every week</p>
-            </div>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={formData[type]}
+                        name={type}
+                        onChange={handleChange}
+                    />
+                }
+                label={`Set as a regular ${type} achievement`}
+            />
+
             <Button
                 variant="contained"
                 color="primary"
@@ -77,6 +148,7 @@ export default function CreateAchievementModal({ isOpen, onClose }) {
                     ":hover": { backgroundColor: "#4E00C8", transform: "scale(1.05)" },
                     marginTop: "20px",
                 }}
+                onClick={handleSubmit}
             >
                 Create
             </Button>
