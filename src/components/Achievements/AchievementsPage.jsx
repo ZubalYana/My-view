@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Alert, Snackbar } from "@mui/material";
 import CreateAchievementBtn from "./CreateAchievementBtn";
 import CreateAchievementModal from "./CreateAchievementModal";
+import AchievementsContainer from "./AchievementsContainer";
 
 export default function AchievementsPage({ type }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,8 @@ export default function AchievementsPage({ type }) {
                 type={type.toLowerCase()}
                 onFeedback={handleFeedback}
             />
+
+            <AchievementsContainer />
 
             <Snackbar
                 open={!!alert.message}
