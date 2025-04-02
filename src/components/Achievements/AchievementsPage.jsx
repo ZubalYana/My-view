@@ -28,7 +28,7 @@ export default function AchievementsPage({ type }) {
                 onFeedback={handleFeedback}
             />
 
-            <AchievementsContainer />
+            <AchievementsContainer type={type.toLowerCase()} />
 
             <Snackbar
                 open={!!alert.message}

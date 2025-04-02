@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 
-export default function AchievementsContainer() {
+export default function AchievementsContainer({ type }) {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["achievements"],
         queryFn: fetchAchievements,
@@ -25,13 +25,20 @@ export default function AchievementsContainer() {
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Failed to load achievements.</p>;
 
+    const filteredAchievements = data.filter((achievement) => {
+        if (type === "weekly") return achievement.weekly;
+        if (type === "monthly") return achievement.monthly;
+        if (type === "yearly") return achievement.yearly;
+        return false;
+    });
+
     return (
         <div className="w-full mt-4">
-            {data.length === 0 ? (
-                <p>No achievements found.</p>
+            {filteredAchievements.length === 0 ? (
+                <p>No achievements found for this {type} period.</p>
             ) : (
                 <ul>
-                    {data.map((achievement) => (
+                    {filteredAchievements.map((achievement) => (
                         <li key={achievement._id} className="mb-2 p-2 border rounded">
                             {achievement.repetitions} {achievement.actionName}
                         </li>
