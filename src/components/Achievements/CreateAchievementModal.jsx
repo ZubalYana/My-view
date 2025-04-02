@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { Plus } from "lucide-react";
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-export default function CreateAchievementModal({ isOpen, onClose, type }) {
+export default function CreateAchievementModal({ isOpen, onClose, type, onFeedback }) {
     const [formData, setFormData] = useState({
         actionName: "",
         repetitions: "",
@@ -58,6 +58,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             });
 
             if (response.ok) {
+                onFeedback("Achievement created successfully!", "success");
                 setFormData({
                     actionName: "",
                     repetitions: "",
@@ -68,10 +69,10 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
                 });
                 onClose();
             } else {
-                console.error("Failed to create achievement");
+                onFeedback("Failed to create achievement. Try again.", "error");
             }
         } catch (error) {
-            console.error("Error:", error);
+            onFeedback("An error occurred. Please try again.", error);
         }
     };
 
@@ -122,7 +123,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
                 onChange={handleChange}
             />
             <TextField
-                label="What's the action you want to track? ( e.g. Exercise, Read a book )"
+                label="What's the action you want to track? ( e.g. exercise, read a book )"
                 variant="outlined"
                 fullWidth
                 margin="normal"
