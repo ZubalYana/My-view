@@ -29,5 +29,15 @@ router.post("/create-achievement", async (req, res) => {
     }
 });
 
+router.get("/get-achievements", async (req, res) => {
+    try {
+        const achievements = await AchievementModal.find().populate("user").exec();
+        res.status(200).json(achievements);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 
 module.exports = router;
