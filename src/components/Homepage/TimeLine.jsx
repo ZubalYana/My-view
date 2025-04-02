@@ -75,21 +75,21 @@ export default function TimeLine() {
             <div className="mt-4">
                 <p className="text-sm text-[#F5F5F5]">Current day: <span className="font-semibold">{progress.day}%</span></p>
                 <div className="w-full h-3 rounded-full overflow-hidden border-2 border-[#F5F5F5] mt-2">
-                    <div className="h-full bg-[rgba(245,245,245,0.7)]" style={{ width: `${progress.day}%` }}></div>
+                    <div className="h-full bg-[#FFF]" style={{ width: `${progress.day}%` }}></div>
                 </div>
             </div>
 
             <div className="mt-4">
                 <p className="text-sm text-[#F5F5F5]">Current month: <span className="font-semibold">{progress.month}%</span></p>
                 <div className="w-full h-3 rounded-full overflow-hidden border-2 border-[#F5F5F5] mt-2">
-                    <div className="h-full bg-[rgba(245,245,245,0.7)]" style={{ width: `${progress.month}%` }}></div>
+                    <div className="h-full bg-[#FFF]" style={{ width: `${progress.month}%` }}></div>
                 </div>
             </div>
 
             <div className="mt-4">
                 <p className="text-sm text-[#F5F5F5]">Current year: <span className="font-semibold">{progress.year}%</span></p>
                 <div className="w-full h-3 rounded-full overflow-hidden border-2 border-[#F5F5F5] mt-2">
-                    <div className="h-full bg-[rgba(245,245,245,0.7)]" style={{ width: `${progress.year}%` }}></div>
+                    <div className="h-full bg-[#FFF]" style={{ width: `${progress.year}%` }}></div>
                 </div>
             </div>
         </div>

@@ -33,17 +33,20 @@ export default function AchievementsContainer({ type }) {
     });
 
     return (
-        <div className="w-full mt-4">
+        <div className="w-full mt-5">
             {filteredAchievements.length === 0 ? (
                 <p>No achievements found for this {type} period.</p>
             ) : (
-                <ul>
+                <div className="flex flex-wrap gap-y-10 gap-x-15">
                     {filteredAchievements.map((achievement) => (
-                        <li key={achievement._id} className="mb-2 p-2 border rounded">
+                        <div
+                            key={achievement._id}
+                            className="w-[350px] h-[250px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col items-center justify-center"
+                        >
                             {achievement.repetitions} {achievement.actionName}
-                        </li>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
