@@ -8,7 +8,7 @@ import { ChevronDown } from "lucide-react";
 
 export default function SideMenu() {
   const location = useLocation();
-  const [expandedMenu, setExpandedMenu] = useState(null);
+  const [expandedMenu, setExpandedMenu] = useState("Achievements");
 
   const menuItems = [
     { name: "Home", path: "/", icon: <Home /> },
@@ -40,9 +40,8 @@ export default function SideMenu() {
               {subItems ? (
                 <div>
                   <div
-                    className={`relative flex items-center px-4 py-2 rounded-lg cursor-pointer transition-colors ${
-                      isParentActive ? "bg-white/20" : "hover:bg-white/10"
-                    }`}
+                    className={`relative flex items-center px-4 py-2 rounded-lg cursor-pointer transition-colors ${isParentActive ? "bg-white/20" : "hover:bg-white/10"
+                      }`}
                     onClick={() => setExpandedMenu(expandedMenu === name ? null : name)}
                   >
                     <span className="relative z-10 flex items-center gap-2 w-full">
@@ -62,9 +61,8 @@ export default function SideMenu() {
                         <li key={path} className="mt-2">
                           <Link
                             to={path}
-                            className={`relative flex items-center px-4 py-2 rounded-lg text-sm transition-colors ${
-                              isSubActive ? "bg-white/20" : "hover:bg-white/10"
-                            }`}
+                            className={`relative flex items-center px-4 py-2 rounded-lg text-sm transition-colors ${isSubActive ? "bg-white/20" : "hover:bg-white/10"
+                              }`}
                           >
                             <span className="relative z-10">{name}</span>
                           </Link>
@@ -76,9 +74,8 @@ export default function SideMenu() {
               ) : (
                 <Link
                   to={path}
-                  className={`relative flex items-center px-4 py-2 rounded-lg transition-colors ${
-                    location.pathname === path ? "bg-white/20" : "hover:bg-white/10"
-                  }`}
+                  className={`relative flex items-center px-4 py-2 rounded-lg transition-colors ${location.pathname === path ? "bg-white/20" : "hover:bg-white/10"
+                    }`}
                 >
                   <span className="relative z-10 flex items-center gap-2">{icon} {name}</span>
                 </Link>
