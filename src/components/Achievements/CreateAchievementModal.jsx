@@ -58,6 +58,14 @@ export default function CreateAchievementModal({ isOpen, onClose, type }) {
             });
 
             if (response.ok) {
+                setFormData({
+                    actionName: "",
+                    repetitions: "",
+                    weekly: type === "weekly",
+                    monthly: type === "monthly",
+                    yearly: type === "yearly",
+                    isRegular: false,
+                });
                 onClose();
             } else {
                 console.error("Failed to create achievement");
