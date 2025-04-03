@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const AchievementSchema = new mongoose.Schema({
     actionName: { type: String, required: true },
     repetitions: { type: Number, required: true, min: 1 },
+    completedRepetitions: { type: Number, default: 0 },
     weekly: { type: Boolean, default: false },
     monthly: { type: Boolean, default: false },
     yearly: { type: Boolean, default: false },

@@ -43,7 +43,10 @@ export default function AchievementsContainer({ type }) {
                             key={achievement._id}
                             className="w-[350px] h-[250px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col items-center justify-center"
                         >
-                            {achievement.repetitions} {achievement.actionName}
+                            <p className="text-lg font-semibold">
+                                <span className="text-[#5A00DA] mr-2">{achievement.repetitions}</span>
+                                <span className="">{achievement.actionName}</span>
+                            </p>
                         </div>
                     ))}
                 </div>
