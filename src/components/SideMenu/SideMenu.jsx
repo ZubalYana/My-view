@@ -5,6 +5,7 @@ import WhiteLogo from "../WhiteLogo/WhiteLogo";
 import Home from "@mui/icons-material/Home";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { ChevronDown } from "lucide-react";
+import AnimatedLogo from "../AnimatedLogo/AnimatedLogo";
 
 export default function SideMenu() {
   const location = useLocation();
@@ -25,7 +26,8 @@ export default function SideMenu() {
 
   return (
     <div className="SideMenu w-[19%] h-[100vh] bg-[#5A00DA] text-[#F5F5F5] p-8 z-50 xs:hidden lg:block">
-      <WhiteLogo />
+      {/* <WhiteLogo /> */}
+      <AnimatedLogo />
       <motion.div
         className="animatedLine bg-white h-[1px] mt-2"
         initial={{ width: 0 }}
