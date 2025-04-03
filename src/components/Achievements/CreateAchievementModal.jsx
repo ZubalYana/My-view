@@ -4,9 +4,11 @@ Modal.setAppElement("#root");
 import { TextField, Button, FormControlLabel } from "@mui/material";
 import Checkbox from '@mui/material/Checkbox';
 import { Plus } from "lucide-react";
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreateAchievementModal({ isOpen, onClose, type, onFeedback }) {
+    const queryClient = useQueryClient();
+
     const [formData, setFormData] = useState({
         actionName: "",
         repetitions: "",
@@ -59,6 +61,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
 
             if (response.ok) {
                 onFeedback("Achievement created successfully!", "success");
+                queryClient.invalidateQueries(["achievements"]);
                 setFormData({
                     actionName: "",
                     repetitions: "",
