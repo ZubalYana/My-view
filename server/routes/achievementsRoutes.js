@@ -39,5 +39,30 @@ router.get("/get-achievements", async (req, res) => {
     }
 });
 
+router.patch("/update/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { completedRepetitions } = req.body;
+
+        if (completedRepetitions < 0) {
+            return res.status(400).json({ message: "Completed repetitions cannot be negative" });
+        }
+
+        const achievement = await AchievementModal.findById(id);
+        if (!achievement) {
+            return res.status(404).json({ message: "Achievement not found" });
+        }
+
+        achievement.completedRepetitions = Math.min(completedRepetitions, achievement.repetitions);
+
+        await achievement.save();
+        res.status(200).json({ message: "Achievement updated successfully", achievement });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 
 module.exports = router;

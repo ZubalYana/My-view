@@ -63,7 +63,11 @@ export default function AchievementsContainer({ type }) {
     });
 
     const handleCheckboxChange = (achievement, index) => {
-        const newCompletedRepetitions = achievement.completedRepetitions + (achievement.completedRepetitions > index ? -1 : 1);
+        const isCurrentlyChecked = index < achievement.completedRepetitions;
+        const newCompletedRepetitions = isCurrentlyChecked
+            ? achievement.completedRepetitions - 1
+            : achievement.completedRepetitions + 1;
+
         updateAchievement.mutate({ id: achievement._id, completedRepetitions: newCompletedRepetitions });
     };
 
@@ -92,8 +96,8 @@ export default function AchievementsContainer({ type }) {
                                 {[...Array(achievement.repetitions)].map((_, index) => (
                                     <Checkbox
                                         {...label}
-                                        icon={<CircleOutlinedIcon sx={{ fontSize: 28 }} />}
-                                        checkedIcon={<CircleIcon fontSize="small" />}
+                                        icon={<CircleOutlinedIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
+                                        checkedIcon={<CircleIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
                                         checked={index < achievement.completedRepetitions}
                                         onChange={() => handleCheckboxChange(achievement, index)}
                                         sx={{ padding: 0 }}
