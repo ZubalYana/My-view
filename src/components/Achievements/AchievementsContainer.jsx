@@ -101,6 +101,7 @@ export default function AchievementsContainer({ type }) {
                                         checked={index < achievement.completedRepetitions}
                                         onChange={() => handleCheckboxChange(achievement, index)}
                                         sx={{ padding: 0 }}
+                                        key={index}
                                     />
                                 ))}
                             </div>
