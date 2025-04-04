@@ -3,11 +3,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Checkbox from "@mui/material/Checkbox";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
+import AchievementModal from "./AchievementModal";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function AchievementsContainer({ type }) {
     const queryClient = useQueryClient();
+    const [selectedAchievement, setSelectedAchievement] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["achievements"],
@@ -75,6 +78,16 @@ export default function AchievementsContainer({ type }) {
         return Math.round((completedRepetitions / repetitions) * 100);
     };
 
+    const openModal = (achievement) => {
+        setSelectedAchievement(achievement);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedAchievement(null);
+        setModalOpen(false);
+    };
+
     return (
         <div className="w-full mt-5">
             {filteredAchievements.length === 0 ? (
@@ -85,6 +98,7 @@ export default function AchievementsContainer({ type }) {
                         <div
                             key={achievement._id}
                             className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative"
+                            onClick={() => openModal(achievement)}
                         >
                             <div className="w-full flex justify-between">
                                 <p className="text-lg font-semibold">
@@ -103,10 +117,14 @@ export default function AchievementsContainer({ type }) {
                                         icon={<CircleOutlinedIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
                                         checkedIcon={<CircleIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
                                         checked={index < achievement.completedRepetitions}
-                                        onChange={() => handleCheckboxChange(achievement, index)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onChange={(e) => {
+                                            handleCheckboxChange(achievement, index);
+                                        }}
                                         sx={{ padding: 0 }}
                                         key={index}
                                     />
+
                                 ))}
                             </div>
                             <div className="mt-4 absolute bottom-5 w-[88%]">
@@ -119,6 +137,9 @@ export default function AchievementsContainer({ type }) {
                     ))}
                 </div>
             )}
+
+            <AchievementModal open={modalOpen} onClose={closeModal} achievement={selectedAchievement} />
+
         </div>
     );
 }
