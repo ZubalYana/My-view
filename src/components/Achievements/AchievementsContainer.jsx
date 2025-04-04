@@ -71,6 +71,10 @@ export default function AchievementsContainer({ type }) {
         updateAchievement.mutate({ id: achievement._id, completedRepetitions: newCompletedRepetitions });
     };
 
+    const countProgressPercentage = (completedRepetitions, repetitions) => {
+        return Math.round((completedRepetitions / repetitions) * 100);
+    };
+
     return (
         <div className="w-full mt-5">
             {filteredAchievements.length === 0 ? (
@@ -80,7 +84,7 @@ export default function AchievementsContainer({ type }) {
                     {filteredAchievements.map((achievement) => (
                         <div
                             key={achievement._id}
-                            className="w-[350px] h-[250px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5"
+                            className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative"
                         >
                             <div className="w-full flex justify-between">
                                 <p className="text-lg font-semibold">
@@ -92,7 +96,7 @@ export default function AchievementsContainer({ type }) {
                                 </span>
                             </div>
 
-                            <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto">
+                            <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto max-h-[140px]">
                                 {[...Array(achievement.repetitions)].map((_, index) => (
                                     <Checkbox
                                         {...label}
@@ -104,6 +108,12 @@ export default function AchievementsContainer({ type }) {
                                         key={index}
                                     />
                                 ))}
+                            </div>
+                            <div className="mt-4 absolute bottom-5 w-[88%]">
+                                <div className="w-full h-3 rounded-[3px] overflow-hidden border-2 border-[#121212]">
+                                    <div className="h-full bg-[#121212]" style={{ width: `${countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%` }}></div>
+                                </div>
+                                <p className="text-sm text-[#121212] mt-2">Current progress: <span className="font-semibold text-[#5A00DA]">{countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%</span></p>
                             </div>
                         </div>
                     ))}
