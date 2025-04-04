@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom'
-import WhiteLogo from '../WhiteLogo/WhiteLogo'
+import AnimatedLogo from '../AnimatedLogo/AnimatedLogo';
 import CircledBackground from '../CircledBackground/CircledBackground'
 import LoginForm from './LoginForm'
 import RegistrationForm from './RegistrationForm'
@@ -18,7 +18,7 @@ export default function AuthLayout() {
 
   const handleRegistrationSuccess = () => {
     setSuccessMessage("Registration successful! You can now log in.");
-    setIsLogin(true); 
+    setIsLogin(true);
 
     navigate('/');
 
@@ -27,7 +27,7 @@ export default function AuthLayout() {
   return (
     <div className='w-full h-screen relative lg:overflow-hidden'>
       <div className='w-full h-screen absolute z-50 p-[20px] lg:px-[60px] lg:py-[40px]'>
-        <WhiteLogo />
+        <AnimatedLogo />
         <div className='w-full flex justify-end'>
           <motion.div
             key={isLogin ? "login" : "register"}
