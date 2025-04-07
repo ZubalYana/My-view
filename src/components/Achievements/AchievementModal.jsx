@@ -1,8 +1,9 @@
 import React from "react";
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent, Button } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
+import { Edit2, Trash2 } from "lucide-react";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 
@@ -36,7 +37,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                         {achievement.completedRepetitions}/{achievement.repetitions}
                     </span>
                 </div>
-                <div className="w-full flex flex-wrap mt-3 gap-[7px] h-auto overflow-y-auto max-h-[500px]">
+                <div className="w-full flex flex-wrap mt-3 gap-[7px] h-auto overflow-y-auto max-h-[133px]">
                     {[...Array(achievement.repetitions)].map((_, index) => (
                         <Checkbox
                             {...label}
@@ -57,6 +58,36 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                     <p className="text-sm text-[#121212] mt-2">
                         Current progress: <span className="font-semibold text-[#5A00DA]">{countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%</span>
                     </p>
+                </div>
+                <div className="w-[420px] flex justify-between mt-5">
+                    <Button
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#5A00DA",
+                            color: "white",
+                            textTransform: "none",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "10px 20px",
+                        }}
+                    >
+                        <Edit2 className="w-[20px] mr-2" />
+                        Edit Achievement
+                    </Button>
+                    <Button
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#DA0037",
+                            color: "white",
+                            textTransform: "none",
+                            fontSize: "14px",
+                            fontWeight: "bold",
+                            padding: "10px 20px",
+                        }}
+                    >
+                        <Trash2 className="w-[20px] mr-2" />
+                        Delete Achievement
+                    </Button>
                 </div>
             </DialogContent>
         </Dialog>
