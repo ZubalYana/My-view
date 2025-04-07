@@ -6,7 +6,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 
-export default function AchievementModal({ open, onClose, achievement }) {
+export default function AchievementModal({ open, onClose, achievement, handleCheckboxChange }) {
     if (!achievement) return null;
 
     const countProgressPercentage = (completedRepetitions, repetitions) => {
@@ -36,7 +36,6 @@ export default function AchievementModal({ open, onClose, achievement }) {
                         {achievement.completedRepetitions}/{achievement.repetitions}
                     </span>
                 </div>
-
                 <div className="w-full flex flex-wrap mt-3 gap-[7px] h-auto overflow-y-auto max-h-[500px]">
                     {[...Array(achievement.repetitions)].map((_, index) => (
                         <Checkbox
@@ -45,22 +44,22 @@ export default function AchievementModal({ open, onClose, achievement }) {
                             checkedIcon={<CircleIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
                             checked={index < achievement.completedRepetitions}
                             onClick={(e) => e.stopPropagation()}
-                            onChange={(e) => {
-                                handleCheckboxChange(achievement, index);
-                            }}
+                            onChange={(e) => handleCheckboxChange(achievement, index)}
                             sx={{ padding: 0 }}
                             key={index}
                         />
-
                     ))}
                 </div>
                 <div className="mt-4 w-full">
                     <div className="w-full h-3 rounded-[3px] overflow-hidden border-2 border-[#121212]">
                         <div className="h-full bg-[#121212]" style={{ width: `${countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%` }}></div>
                     </div>
-                    <p className="text-sm text-[#121212] mt-2">Current progress: <span className="font-semibold text-[#5A00DA]">{countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%</span></p>
+                    <p className="text-sm text-[#121212] mt-2">
+                        Current progress: <span className="font-semibold text-[#5A00DA]">{countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%</span>
+                    </p>
                 </div>
             </DialogContent>
         </Dialog>
     );
 }
+
