@@ -63,6 +63,54 @@ router.patch("/update/:id", async (req, res) => {
     }
 });
 
+router.patch("/edit-achievement/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const {
+            actionName,
+            repetitions,
+            weekly,
+            monthly,
+            yearly,
+            isRegular,
+        } = req.body;
+
+        const achievement = await AchievementModal.findById(id);
+        if (!achievement) {
+            return res.status(404).json({ message: "Achievement not found" });
+        }
+
+        if (actionName !== undefined) achievement.actionName = actionName;
+        if (repetitions !== undefined) achievement.repetitions = repetitions;
+        if (weekly !== undefined) achievement.weekly = weekly;
+        if (monthly !== undefined) achievement.monthly = monthly;
+        if (yearly !== undefined) achievement.yearly = yearly;
+        if (isRegular !== undefined) achievement.isRegular = isRegular;
+
+        await achievement.save();
+        res.status(200).json({ message: "Achievement updated successfully", achievement });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.delete("/delete-achievement/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const achievement = await AchievementModal.findByIdAndDelete(id);
+        if (!achievement) {
+            return res.status(404).json({ message: "Achievement not found" });
+        }
+
+        res.status(200).json({ message: "Achievement deleted successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 
 
 module.exports = router;
