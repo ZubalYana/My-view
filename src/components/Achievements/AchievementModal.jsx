@@ -5,6 +5,7 @@ import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Edit2, Trash2, X } from "lucide-react";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -20,30 +21,50 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
         return Math.round((completedRepetitions / repetitions) * 100);
     };
 
-    const handleEditAchievement = async () => {
-        try {
+    const queryClient = useQueryClient();
+
+    const editAchievement = useMutation({
+        mutationFn: async () => {
             const response = await axios.patch(`http://localhost:5000/achievements/edit-achievement/${achievement._id}`, {
                 actionName: editedActionName,
-                repetitions: editedRepetitions
+                repetitions: editedRepetitions,
             });
-            console.log(response.data);
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["achievements"]);
             onFeedback?.("Achievement updated successfully!", "success");
             onClose();
-        } catch (error) {
+        },
+        onError: (error) => {
             console.error("Error editing achievement", error);
-        }
-    };
+        },
+    });
 
-    const handleDeleteAchievement = async () => {
-        try {
+    const deleteAchievement = useMutation({
+        mutationFn: async () => {
             const response = await axios.delete(`http://localhost:5000/achievements/delete-achievement/${achievement._id}`);
-            console.log(response.data);
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(["achievements"]);
             onFeedback?.("Achievement deleted successfully!", "success");
             onClose();
-        } catch (error) {
+        },
+        onError: (error) => {
             console.error("Error deleting achievement", error);
-        }
+        },
+    });
+
+    const handleEditAchievement = () => {
+        editAchievement.mutate();
     };
+
+    const handleDeleteAchievement = () => {
+        deleteAchievement.mutate();
+    };
+
+
 
     return (
         <div>
