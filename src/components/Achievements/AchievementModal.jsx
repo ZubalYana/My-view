@@ -64,8 +64,6 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
         deleteAchievement.mutate();
     };
 
-
-
     return (
         <div>
             <Dialog
