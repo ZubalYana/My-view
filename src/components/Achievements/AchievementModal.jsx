@@ -56,8 +56,9 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                 },
             }}
         >
-            <DialogContent>
-                <div className="w-full flex justify-between">
+            <DialogContent
+                sx={{ transition: "all 0.3s ease-in-out" }}>
+                <div className="w-full flex justify-between transition-all">
                     <p className="text-lg font-semibold">
                         <span className="text-[#5A00DA] mr-2">{achievement.repetitions}</span>
                         <span className="">{achievement.actionName}</span>
@@ -91,7 +92,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                     </p>
                 </div>
 
-                <div className="w-[420px] flex justify-between mt-5">
+                <div className="flex mt-5">
                     <Button
                         variant="contained"
                         sx={{
@@ -101,6 +102,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                             fontSize: "14px",
                             fontWeight: "bold",
                             padding: "10px 20px",
+                            marginRight: "20px",
                         }}
                         onClick={() => setIsEditing(!isEditing)}
                     >
@@ -129,7 +131,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                 </div>
 
                 {isEditing && (
-                    <div className="mt-4">
+                    <div className="mt-6">
                         <TextField
                             label="Achievement Name"
                             variant="outlined"
