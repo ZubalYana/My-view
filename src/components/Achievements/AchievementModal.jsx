@@ -8,7 +8,7 @@ import axios from "axios";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-export default function AchievementModal({ open, onClose, achievement, handleCheckboxChange }) {
+export default function AchievementModal({ open, onClose, achievement, handleCheckboxChange, onFeedback }) {
     if (!achievement) return null;
 
     const [editedActionName, setEditedActionName] = useState(achievement.actionName);
@@ -26,6 +26,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                 repetitions: editedRepetitions
             });
             console.log(response.data);
+            onFeedback?.("Achievement updated successfully!", "success");
             onClose();
         } catch (error) {
             console.error("Error editing achievement", error);
@@ -36,6 +37,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
         try {
             const response = await axios.delete(`http://localhost:5000/achievements/delete-achievement/${achievement._id}`);
             console.log(response.data);
+            onFeedback?.("Achievement deleted successfully!", "success");
             onClose();
         } catch (error) {
             console.error("Error deleting achievement", error);

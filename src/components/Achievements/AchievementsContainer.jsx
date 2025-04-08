@@ -22,7 +22,7 @@ const fetchAchievements = async () => {
     return response.json();
 };
 
-export default function AchievementsContainer({ type }) {
+export default function AchievementsContainer({ type, onFeedback }) {
     const queryClient = useQueryClient();
     const [selectedAchievement, setSelectedAchievement] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -172,7 +172,9 @@ export default function AchievementsContainer({ type }) {
                 onClose={closeModal}
                 achievement={selectedAchievement}
                 handleCheckboxChange={handleCheckboxChange}
+                onFeedback={onFeedback}
             />
+
         </div>
     );
 }
