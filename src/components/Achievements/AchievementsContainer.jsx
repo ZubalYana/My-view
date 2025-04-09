@@ -4,7 +4,7 @@ import Checkbox from "@mui/material/Checkbox";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import AchievementModal from "./AchievementModal";
-
+import AchievementCompletedModal from "./AchievementCompletedModal";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const fetchAchievements = async () => {
@@ -26,6 +26,8 @@ export default function AchievementsContainer({ type, onFeedback }) {
     const queryClient = useQueryClient();
     const [selectedAchievement, setSelectedAchievement] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [celebretionModalOpen, setCelebrationModalOpen] = useState(false);
+    const [justCompletedAchievement, setJustCompletedAchievement] = useState(null);
 
     const {
         data = [],
@@ -81,8 +83,24 @@ export default function AchievementsContainer({ type, onFeedback }) {
             ? achievement.completedRepetitions - 1
             : achievement.completedRepetitions + 1;
 
-        updateAchievement.mutate({ id: achievement._id, completedRepetitions: newCompleted });
+        const wasIncomplete = achievement.completedRepetitions < achievement.repetitions;
+        const willBeComplete = newCompleted === achievement.repetitions;
+
+        updateAchievement.mutate(
+            { id: achievement._id, completedRepetitions: newCompleted },
+            {
+                onSuccess: () => {
+                    queryClient.invalidateQueries(["achievements"]);
+
+                    if (wasIncomplete && willBeComplete) {
+                        setJustCompletedAchievement(achievement);
+                        setCelebrationModalOpen(true);
+                    }
+                },
+            }
+        );
     };
+
 
     const countProgressPercentage = (completed, total) =>
         Math.round((completed / total) * 100);
@@ -95,6 +113,14 @@ export default function AchievementsContainer({ type, onFeedback }) {
     const closeModal = () => {
         setSelectedAchievement(null);
         setModalOpen(false);
+    };
+
+    const openCelebrationModal = () => {
+        setCelebrationModalOpen(true);
+    };
+
+    const closeCelebrationModal = () => {
+        setCelebrationModalOpen(false);
     };
 
     if (isLoading) return <p>Loading...</p>;
@@ -174,6 +200,14 @@ export default function AchievementsContainer({ type, onFeedback }) {
                 handleCheckboxChange={handleCheckboxChange}
                 onFeedback={onFeedback}
             />
+            <AchievementCompletedModal
+                open={celebretionModalOpen}
+                onClose={closeCelebrationModal}
+                achievement={justCompletedAchievement}
+            />
+
+
+
 
         </div>
     );
