@@ -1,6 +1,7 @@
 import React from "react";
 import { Dialog, DialogContent } from "@mui/material";
 import { format, parseISO, differenceInDays } from "date-fns";
+import { PartyPopper } from "lucide-react";
 
 export default function AchievementCompletedModal({ open, onClose, achievement }) {
     if (!achievement) return null;
@@ -29,23 +30,30 @@ export default function AchievementCompletedModal({ open, onClose, achievement }
             }}
         >
             <DialogContent>
-                <h2 className="text-2xl font-bold text-[#5A00DA] mb-2">🎉 ACHIEVEMENT COMPLETED! 🎉</h2>
+                <h2 className="text-2xl font-bold text-[#121212] mb-2 w-full flex justify-center">
+                    <PartyPopper className="mr-2 text-[#5A00DA]" />
+                    ACHIEVEMENT COMPLETED!
+                    <PartyPopper className="ml-2 text-[#5A00DA]" />
+                </h2>
 
-                <p className="text-base mb-1">
-                    You successfully made it:{" "}
-                    <span className="text-[#5A00DA] font-semibold">
+                <p className="text-base mb-1 w-full flex justify-center">
+                    You successfully made it: {" "}
+                    <span className="text-[#5A00DA] font-semibold ml-1">
                         {repetitions} {actionName}
                     </span>
+                    !
                 </p>
 
-                <p className="text-base">
-                    You set the achievement on{" "}
-                    <span className="text-[#5A00DA] font-semibold">{formattedCreatedDate}</span> and completed it on{" "}
-                    <span className="text-[#5A00DA] font-semibold">{formattedCompletedDate}</span>. It took you{" "}
-                    <span className="text-[#5A00DA] font-semibold">
-                        {durationInDays === 0 ? "less than a day" : `${durationInDays} day${durationInDays > 1 ? "s" : ""}`}
-                    </span>. Be proud of yourself!
-                </p>
+                <div className=" w-full flex justify-center text-center">
+                    <p className="text-base">
+                        You set the achievement on{" "}
+                        <span className="text-[#5A00DA] font-semibold">{formattedCreatedDate}</span> and completed it on{" "}
+                        <span className="text-[#5A00DA] font-semibold">{formattedCompletedDate}</span>. It took you in total{" "}
+                        <span className="text-[#5A00DA] font-semibold">
+                            {durationInDays === 0 ? "less than a day" : `${durationInDays} day${durationInDays > 1 ? "s" : ""}`}
+                        </span>. Be proud of yourself!
+                    </p>
+                </div>
             </DialogContent>
         </Dialog>
     );
