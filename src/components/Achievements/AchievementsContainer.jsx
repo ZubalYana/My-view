@@ -28,6 +28,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [celebretionModalOpen, setCelebrationModalOpen] = useState(false);
     const [justCompletedAchievement, setJustCompletedAchievement] = useState(null);
+    const isCompleted = (achievement) => achievement.completedRepetitions >= achievement.repetitions;
 
     const {
         data = [],
@@ -77,6 +78,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
         }
     }, [data, selectedAchievement]);
 
+
     const handleCheckboxChange = (achievement, index) => {
         const isChecked = index < achievement.completedRepetitions;
         const newCompleted = isChecked
@@ -100,7 +102,6 @@ export default function AchievementsContainer({ type, onFeedback }) {
             }
         );
     };
-
 
     const countProgressPercentage = (completed, total) =>
         Math.round((completed / total) * 100);
@@ -126,70 +127,79 @@ export default function AchievementsContainer({ type, onFeedback }) {
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Failed to load achievements.</p>;
 
+
     return (
         <div className="w-full mt-5">
             {filteredAchievements.length === 0 ? (
                 <p>No achievements found for this {type} period.</p>
             ) : (
                 <div className="flex flex-wrap gap-y-10 gap-x-13">
-                    {filteredAchievements.map((achievement) => (
-                        <div
-                            key={achievement._id}
-                            className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative"
-                            onClick={() => openModal(achievement)}
-                        >
-                            <div className="w-full flex justify-between">
-                                <p className="text-lg font-semibold">
-                                    <span className="text-[#5A00DA] mr-2">{achievement.repetitions}</span>
-                                    <span>{achievement.actionName}</span>
-                                </p>
-                                <span className="text-[#5A00DA] text-base font-normal">
-                                    {achievement.completedRepetitions}/{achievement.repetitions}
-                                </span>
-                            </div>
+                    {[...filteredAchievements]
+                        .sort((a, b) => {
+                            const aCompleted = a.completedRepetitions >= a.repetitions;
+                            const bCompleted = b.completedRepetitions >= b.repetitions;
+                            return aCompleted - bCompleted;
+                        })
+                        .map((achievement) => (
 
-                            <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto max-h-[140px]">
-                                {[...Array(achievement.repetitions)].map((_, index) => (
-                                    <Checkbox
-                                        {...label}
-                                        icon={<CircleOutlinedIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
-                                        checkedIcon={<CircleIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
-                                        checked={index < achievement.completedRepetitions}
-                                        onClick={(e) => e.stopPropagation()}
-                                        onChange={() => {
-                                            handleCheckboxChange(achievement, index);
-                                        }}
-                                        sx={{ padding: 0 }}
-                                        key={index}
-                                    />
-                                ))}
-                            </div>
+                            <div
+                                key={achievement._id}
+                                className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative"
+                                onClick={() => openModal(achievement)}
 
-                            <div className="mt-4 absolute bottom-5 w-[88%]">
-                                <div className="w-full h-3 rounded-[3px] overflow-hidden border-2 border-[#121212]">
-                                    <div
-                                        className="h-full bg-[#121212]"
-                                        style={{
-                                            width: `${countProgressPercentage(
+                            >
+                                <div className="w-full flex justify-between">
+                                    <p className="text-lg font-semibold">
+                                        <span className="text-[#5A00DA] mr-2">{achievement.repetitions}</span>
+                                        <span>{achievement.actionName}</span>
+                                    </p>
+                                    <span className="text-[#5A00DA] text-base font-normal">
+                                        {achievement.completedRepetitions}/{achievement.repetitions}
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto max-h-[140px]">
+                                    {[...Array(achievement.repetitions)].map((_, index) => (
+                                        <Checkbox
+                                            {...label}
+                                            icon={<CircleOutlinedIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
+                                            checkedIcon={<CircleIcon sx={{ fontSize: 28, color: "#5A00DA" }} />}
+                                            checked={index < achievement.completedRepetitions}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onChange={() => {
+                                                handleCheckboxChange(achievement, index);
+                                            }}
+                                            sx={{ padding: 0 }}
+                                            key={index}
+                                        />
+                                    ))}
+                                </div>
+
+                                <div className="mt-4 absolute bottom-5 w-[88%]">
+                                    <div className="w-full h-3 rounded-[3px] overflow-hidden border-2 border-[#121212]">
+                                        <div
+                                            className="h-full bg-[#121212]"
+                                            style={{
+                                                width: `${countProgressPercentage(
+                                                    achievement.completedRepetitions,
+                                                    achievement.repetitions
+                                                )}%`,
+                                            }}
+                                        ></div>
+                                    </div>
+                                    <p className="text-sm text-[#121212] mt-2">
+                                        Current progress:{" "}
+                                        <span className="font-semibold text-[#5A00DA]">
+                                            {countProgressPercentage(
                                                 achievement.completedRepetitions,
                                                 achievement.repetitions
-                                            )}%`,
-                                        }}
-                                    ></div>
+                                            )}
+                                            %
+                                        </span>
+                                    </p>
                                 </div>
-                                <p className="text-sm text-[#121212] mt-2">
-                                    Current progress:{" "}
-                                    <span className="font-semibold text-[#5A00DA]">
-                                        {countProgressPercentage(
-                                            achievement.completedRepetitions,
-                                            achievement.repetitions
-                                        )}
-                                        %
-                                    </span>
-                                </p>
                             </div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             )}
 
@@ -205,10 +215,6 @@ export default function AchievementsContainer({ type, onFeedback }) {
                 onClose={closeCelebrationModal}
                 achievement={justCompletedAchievement}
             />
-
-
-
-
         </div>
     );
 }
