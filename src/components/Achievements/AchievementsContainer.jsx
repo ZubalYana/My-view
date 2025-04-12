@@ -144,7 +144,8 @@ export default function AchievementsContainer({ type, onFeedback }) {
 
                             <div
                                 key={achievement._id}
-                                className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative"
+                                className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative
+                                "
                                 onClick={() => openModal(achievement)}
 
                             >
