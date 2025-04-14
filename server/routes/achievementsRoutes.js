@@ -2,6 +2,32 @@ const express = require("express");
 const router = express.Router();
 const AchievementModal = require("../models/AchievementModal");
 
+function isAchievementExpired(achievement) {
+    const now = new Date();
+    const created = new Date(achievement.createdAt);
+
+    if (achievement.weekly) {
+        const nextWeek = new Date(created);
+        nextWeek.setDate(created.getDate() + 7);
+        return now > nextWeek;
+    }
+
+    if (achievement.monthly) {
+        const nextMonth = new Date(created);
+        nextMonth.setMonth(created.getMonth() + 1);
+        return now > nextMonth;
+    }
+
+    if (achievement.yearly) {
+        const nextYear = new Date(created);
+        nextYear.setFullYear(created.getFullYear() + 1);
+        return now > nextYear;
+    }
+
+    return false;
+}
+
+
 router.post("/create-achievement", async (req, res) => {
     try {
         console.log(req.body);
@@ -108,6 +134,22 @@ router.delete("/delete-achievement/:id", async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.delete("/achievements/cleanup", async (req, res) => {
+    try {
+        const achievements = await AchievementModal.find();
+
+        const expiredIds = achievements
+            .filter(isAchievementExpired)
+            .map(a => a._id);
+
+        await AchievementModal.deleteMany({ _id: { $in: expiredIds } });
+
+        res.status(200).json({ message: "Expired achievements deleted", count: expiredIds.length });
+    } catch (err) {
+        res.status(500).json({ message: "Error deleting expired achievements" });
     }
 });
 
