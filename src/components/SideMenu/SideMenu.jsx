@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
-import Home from "@mui/icons-material/Home";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, User, Home, Trophy } from "lucide-react";
 import AnimatedLogo from "../AnimatedLogo/AnimatedLogo";
-
+import Profile from "../Profile/profile";
 export default function SideMenu() {
   const location = useLocation();
   const [expandedMenu, setExpandedMenu] = useState("Achievements");
 
   const menuItems = [
-    { name: "Home", path: "/", icon: <Home /> },
+    { name: "Home", path: "/", icon: <Home size={20} /> },
     {
       name: "Achievements",
-      icon: <EmojiEventsIcon />,
+      icon: <Trophy size={20} />,
       subItems: [
         { name: "Weekly", path: "/achievements-weekly" },
         { name: "Monthly", path: "/achievements-monthly" },
         { name: "Yearly", path: "/achievements-yearly" },
       ],
     },
+    { name: "My Profile", path: "/profile", icon: <User size={20} /> },
   ];
 
   return (

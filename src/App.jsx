@@ -8,7 +8,7 @@ import Homepage from './components/Homepage/Homepage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AchievementsPage from './components/Achievements/AchievementsPage';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import Profile from './components/Profile/profile';
 const queryClient = new QueryClient();
 
 function App() {
@@ -23,6 +23,8 @@ function App() {
               <Route path="/achievements-weekly" element={<LayoutWithSidebar><AchievementsPage type="Weekly" /></LayoutWithSidebar>} />
               <Route path="/achievements-monthly" element={<LayoutWithSidebar><AchievementsPage type="Monthly" /></LayoutWithSidebar>} />
               <Route path="/achievements-yearly" element={<LayoutWithSidebar><AchievementsPage type="Yearly" /></LayoutWithSidebar>} />
+              <Route path="/profile" element={<LayoutWithSidebar><Profile /></LayoutWithSidebar>} />
+
             </Route>
 
             {/* Public Routes */}
