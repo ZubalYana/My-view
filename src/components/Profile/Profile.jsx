@@ -20,7 +20,24 @@ export default function Profile() {
         }
         fetchUser()
     }, [])
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+    };
+
     return (
-        <div>profile</div>
+        <div>
+            <div className="profileInfo flex text-[#121212] items-center">
+                <div className="avatarLayout w-[100px] h-[100px] rounded-full bg-[#5A00DA]"></div>
+                <div className="generalInfo ml-[20px]">
+                    <h2 className='text-2xl font-medium'>{user?.username}</h2>
+                    <p className='text-sm font-light'>{user?.email}</p>
+                    <p className='text-sm font-light mt-[5px]'>Joined: <span className='font-medium'>{formatDate(user?.createdAt)}</span></p>
+                </div>
+            </div>
+
+        </div>
     )
 }
