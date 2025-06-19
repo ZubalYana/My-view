@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { UserCircle2 } from 'lucide-react'
+import { Alert, CircularProgress, Snackbar } from '@mui/material'
 
 export default function Profile() {
     const [user, setUser] = useState(null)
+    const [uploading, setUploading] = useState(false)
+    const [alert, setAlert] = useState({ open: false, message: '', severity: 'success' })
+
     const fileInputRef = useRef()
 
     useEffect(() => {
@@ -28,10 +32,12 @@ export default function Profile() {
     const handleFileChange = async (e) => {
         const file = e.target.files[0]
         if (!file) return
+
         const formData = new FormData()
         formData.append('image', file)
 
         try {
+            setUploading(true)
             const token = localStorage.getItem('token')
             const res = await axios.post('http://localhost:5000/auth/upload-avatar', formData, {
                 headers: {
@@ -39,11 +45,17 @@ export default function Profile() {
                     'Content-Type': 'multipart/form-data',
                 }
             })
+
             setUser((prev) => ({ ...prev, photo: res.data.url }))
+            setAlert({ open: true, message: 'Avatar uploaded successfully!', severity: 'success' })
         } catch (err) {
             console.error('Failed to upload avatar', err)
+            setAlert({ open: true, message: 'Failed to upload avatar', severity: 'error' })
+        } finally {
+            setUploading(false)
         }
     }
+
 
     const formatDate = (dateString) => {
         const date = new Date(dateString)
@@ -82,6 +94,24 @@ export default function Profile() {
                     </p>
                 </div>
             </div>
+
+            {uploading && (
+                <div className="absolute top-5 right-5">
+                    <CircularProgress size={24} color="secondary" />
+                </div>
+            )}
+
+            <Snackbar
+                open={alert.open}
+                autoHideDuration={4000}
+                onClose={() => setAlert({ ...alert, open: false })}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity} sx={{ width: '100%' }}>
+                    {alert.message}
+                </Alert>
+            </Snackbar>
+
         </div>
     )
 }
