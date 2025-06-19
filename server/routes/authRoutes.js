@@ -5,6 +5,25 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/UserModel');
 const authenticateToken = require('../middleware/authMiddleware');
 const path = require("path");
+const multer = require("multer");
+const { v2: cloudinary } = require("cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'user_avatars',
+    allowed_formats: ['jpg', 'jpeg', 'png'],
+    transformation: [{ width: 300, height: 300, crop: 'limit' }],
+  },
+});
+const upload = multer({ storage });
 
 /**
  * @swagger
@@ -147,6 +166,26 @@ router.get("/user", authenticateToken, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.post(
+  '/upload-avatar',
+  authenticateToken,
+  upload.single('image'),
+  async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      if (!user) return res.status(404).json({ message: "User not found" });
+
+      user.photo = req.file.path;
+      await user.save();
+
+      res.status(200).json({ message: "Avatar uploaded", url: req.file.path });
+    } catch (error) {
+      console.error("Upload error:", error);
+      res.status(500).json({ message: "Upload failed" });
+    }
+  }
+);
 
 
 module.exports = router;
