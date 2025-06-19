@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const AchievementModal = require("../models/AchievementModal");
+const authenticateToken = require("../middleware/authMiddleware");
 
 function isAchievementExpired(achievement) {
     const now = new Date();
@@ -65,23 +66,31 @@ router.get("/get-achievements", async (req, res) => {
     }
 });
 
-router.patch("/update/:id", async (req, res) => {
+router.patch("/update/:id", authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { completedRepetitions } = req.body;
-
-        if (completedRepetitions < 0) {
-            return res.status(400).json({ message: "Completed repetitions cannot be negative" });
-        }
 
         const achievement = await AchievementModal.findById(id);
         if (!achievement) {
             return res.status(404).json({ message: "Achievement not found" });
         }
 
-        achievement.completedRepetitions = Math.min(completedRepetitions, achievement.repetitions);
+        const diff = completedRepetitions - achievement.completedRepetitions;
+
+        if (diff !== 0) {
+            if (!achievement.achievementHistory) achievement.achievementHistory = [];
+
+            achievement.achievementHistory.push({
+                date: new Date(),
+                count: diff,
+            });
+        }
+
+        achievement.completedRepetitions = Math.max(0, Math.min(completedRepetitions, achievement.repetitions));
 
         await achievement.save();
+
         res.status(200).json({ message: "Achievement updated successfully", achievement });
     } catch (error) {
         console.error(error);
@@ -150,6 +159,16 @@ router.delete("/achievements/cleanup", async (req, res) => {
         res.status(200).json({ message: "Expired achievements deleted", count: expiredIds.length });
     } catch (err) {
         res.status(500).json({ message: "Error deleting expired achievements" });
+    }
+});
+
+router.get('/activity', authenticateToken, async (req, res) => {
+    try {
+        const achievements = await AchievementModal.find({ user: req.user.id });
+        const allHistory = achievements.flatMap((a) => a.achievementHistory || []);
+        res.json(allHistory);
+    } catch (err) {
+        res.status(500).json({ message: 'Error fetching activity data' });
     }
 });
 

@@ -10,6 +10,12 @@ const AchievementSchema = new mongoose.Schema({
     isRegular: { type: Boolean, default: false },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     createdAt: { type: Date, default: Date.now },
+    achievementHistory: [
+        {
+            date: { type: Date, default: Date.now },
+            count: { type: Number, default: 1 },
+        }
+    ]
 });
 
 module.exports = mongoose.model("Achievement", AchievementSchema);

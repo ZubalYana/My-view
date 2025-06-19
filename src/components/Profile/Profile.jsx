@@ -105,7 +105,7 @@ export default function Profile() {
                 open={alert.open}
                 autoHideDuration={4000}
                 onClose={() => setAlert({ ...alert, open: false })}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
                 <Alert onClose={() => setAlert({ ...alert, open: false })} severity={alert.severity} sx={{ width: '100%' }}>
                     {alert.message}

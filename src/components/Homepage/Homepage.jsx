@@ -2,6 +2,7 @@ import React from 'react'
 import DynamicGreating from './DynamicGreating'
 import CircularProgressbarsContainer from '../CircularProgressbarsContainer/CircularProgressbarsContainer'
 import TimeLine from './timeLine'
+import AchievementActivityChart from './AchievementActivityChart'
 export default function Homepage() {
   return (
     <div>
@@ -12,6 +13,9 @@ export default function Homepage() {
           <CircularProgressbarsContainer />
         </div>
         <TimeLine />
+      </div>
+      <div className='w-full flex'>
+        <AchievementActivityChart />
       </div>
     </div>
   )

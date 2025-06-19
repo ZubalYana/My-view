@@ -93,7 +93,6 @@ export default function AchievementsContainer({ type, onFeedback }) {
             {
                 onSuccess: () => {
                     queryClient.invalidateQueries(["achievements"]);
-
                     if (wasIncomplete && willBeComplete) {
                         setJustCompletedAchievement(achievement);
                         setCelebrationModalOpen(true);
