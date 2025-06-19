@@ -141,14 +141,14 @@ export default function AchievementsContainer({ type, onFeedback }) {
                             return aCompleted - bCompleted;
                         })
                         .map((achievement) => (
-
                             <div
                                 key={achievement._id}
-                                className="w-[350px] h-[270px] bg-[#FFFFFF] rounded-xl shadow-xl flex flex-col p-5 relative
-                                "
+                                className={`w-[350px] h-[270px] rounded-xl shadow-xl flex flex-col p-5 relative
+    ${achievement.completedRepetitions >= achievement.repetitions ? "bg-[#E6E6FA] opacity-85" : "bg-[#FFFFFF]"}
+  `}
                                 onClick={() => openModal(achievement)}
-
                             >
+
                                 <div className="w-full flex justify-between">
                                     <p className="text-lg font-semibold">
                                         <span className="text-[#5A00DA] mr-2">{achievement.repetitions}</span>
