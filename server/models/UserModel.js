@@ -6,6 +6,11 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
     photo: { type: String, default: "", },
+    streak: {
+        current: { type: Number, default: 0 },
+        lastUpdated: { type: Date },
+        longest: { type: Number, default: 0 }
+    }
 
 });
 

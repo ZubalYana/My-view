@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Dialog, DialogContent, Button, TextField } from "@mui/material";
+import { Dialog, DialogContent, Button, TextField, Autocomplete } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -16,6 +16,8 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
     const [editedRepetitions, setEditedRepetitions] = useState(achievement.repetitions);
     const [isEditing, setIsEditing] = useState(false);
     const [confirmOpen, setConfirmOpen] = useState(false);
+    const [editedTags, setEditedTags] = useState(achievement.tags || []);
+    const defaultTags = ["Fitness", "Study", "Health", "Work", "Hobby"];
 
     const countProgressPercentage = (completedRepetitions, repetitions) => {
         return Math.round((completedRepetitions / repetitions) * 100);
@@ -25,12 +27,17 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
 
     const editAchievement = useMutation({
         mutationFn: async () => {
-            const response = await axios.patch(`http://localhost:5000/achievements/edit-achievement/${achievement._id}`, {
-                actionName: editedActionName,
-                repetitions: editedRepetitions,
-            });
+            const response = await axios.patch(
+                `http://localhost:5000/achievements/edit-achievement/${achievement._id}`,
+                {
+                    actionName: editedActionName,
+                    repetitions: editedRepetitions,
+                    tags: editedTags,
+                }
+            );
             return response.data;
         },
+
         onSuccess: () => {
             queryClient.invalidateQueries(["achievements"]);
             onFeedback?.("Achievement updated successfully!", "success");
@@ -114,7 +121,16 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                             Current progress: <span className="font-semibold text-[#5A00DA]">{countProgressPercentage(achievement.completedRepetitions, achievement.repetitions)}%</span>
                         </p>
                     </div>
-
+                    <div className="mt-3">
+                        {achievement.tags.map((tag, index) => (
+                            <span
+                                key={index}
+                                className="text-[#5A00DA] text-[15px] font-semibold p-2 bg-[#e9e6ee] rounded-xl mr-2 hover:cursor-pointer hover:bg-[#d6d3db] transition-colors duration-300 ease-in-out"
+                            >
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
                     <div className="flex mt-5">
                         <Button
                             variant="contained"
@@ -172,6 +188,23 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                                 onChange={(e) => setEditedRepetitions(Number(e.target.value))}
                                 sx={{ marginTop: "10px" }}
                             />
+                            <Autocomplete
+                                multiple
+                                freeSolo
+                                options={defaultTags}
+                                value={editedTags}
+                                onChange={(event, newValue) => setEditedTags(newValue)}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        variant="outlined"
+                                        label="Tags"
+                                        placeholder="Select or type tags"
+                                        sx={{ marginTop: "10px" }}
+                                    />
+                                )}
+                            />
+
                         </div>
                     )}
 

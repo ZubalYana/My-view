@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const AchievementModal = require("../models/AchievementModal");
 const authenticateToken = require("../middleware/authMiddleware");
+const updateUserStreak = require("../utils/updateStreak");
 
 function isAchievementExpired(achievement) {
     const now = new Date();
@@ -27,7 +28,6 @@ function isAchievementExpired(achievement) {
 
     return false;
 }
-
 
 router.post("/create-achievement", async (req, res) => {
     try {
@@ -86,6 +86,8 @@ router.patch("/update/:id", authenticateToken, async (req, res) => {
                 date: new Date(),
                 count: diff,
             });
+
+            await updateUserStreak(req.user.id);
         }
 
         achievement.completedRepetitions = Math.max(0, Math.min(completedRepetitions, achievement.repetitions));

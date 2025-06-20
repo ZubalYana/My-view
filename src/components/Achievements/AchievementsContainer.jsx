@@ -197,6 +197,16 @@ export default function AchievementsContainer({ type, onFeedback }) {
                                             %
                                         </span>
                                     </p>
+                                    <div className="mt-3">
+                                        {achievement.tags.map((tag, index) => (
+                                            <span
+                                                key={index}
+                                                className="text-[#5A00DA] text-[15px] font-semibold p-2 bg-[#e9e6ee] rounded-xl mr-2 hover:cursor-pointer hover:bg-[#d6d3db] transition-colors duration-300 ease-in-out"
+                                            >
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         ))}
