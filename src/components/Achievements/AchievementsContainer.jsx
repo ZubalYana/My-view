@@ -158,7 +158,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
                                     </span>
                                 </div>
 
-                                <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto max-h-[140px]">
+                                <div className="flex flex-wrap mt-3 gap-[7px] overflow-y-auto max-h-[100px]">
                                     {[...Array(achievement.repetitions)].map((_, index) => (
                                         <Checkbox
                                             {...label}

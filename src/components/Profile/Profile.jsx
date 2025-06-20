@@ -95,16 +95,14 @@ export default function Profile() {
                     </p>
                 </div>
             </div>
-            <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl p-3 absolute top-4 right-4'>
-                {user?.streak && (
-                    <StreakFlame
-                        lastUpdated={user.streak.lastUpdated}
-                        current={user.streak.current}
-                        longest={user.streak.longest}
-                    />
+            {user?.streak && (
+                <StreakFlame
+                    lastUpdated={user.streak.lastUpdated}
+                    current={user.streak.current}
+                    longest={user.streak.longest}
+                />
 
-                )}
-            </div>
+            )}
 
             {uploading && (
                 <div className="absolute top-5 right-5">
