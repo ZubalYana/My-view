@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function StreakFlame({ lastUpdated, current }) {
+export default function StreakFlame({ lastUpdated, current, longest }) {
     const [status, setStatus] = useState("dead");
 
     useEffect(() => {
@@ -26,11 +26,13 @@ export default function StreakFlame({ lastUpdated, current }) {
         dead: "/smoulderFlame.webm",
     };
 
+    const isCurrentLongest = current === longest && current > 0;
+
     return (
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 text-center">
             <div
                 style={{
-                    width: "100px",
+                    width: "120px",
                     height: "80px",
                     overflow: "hidden",
                     borderRadius: "12px",
@@ -56,10 +58,18 @@ export default function StreakFlame({ lastUpdated, current }) {
                 </video>
             </div>
 
-            <span className="text-[#F5F5F5] font-medium text-base">
-                <span className="font-bold">{current}</span>-day streak
+            <span
+                className="font-medium text-[14px] text-[#F5F5F5] "
+            >
+                <span className="font-bold">{current}</span>-day streak <br />
+                {isCurrentLongest && " ( Longest! )"}
             </span>
-        </div>
 
+            {!isCurrentLongest && longest > 0 && (
+                <span className="text-sm text-gray-400">
+                    Longest streak: <span className="font-semibold">{longest}</span>
+                </span>
+            )}
+        </div>
     );
 }
