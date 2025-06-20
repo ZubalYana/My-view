@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { UserCircle2 } from 'lucide-react'
 import { Alert, CircularProgress, Snackbar } from '@mui/material'
+import StreakFlame from './StreakFlame'
 
 export default function Profile() {
     const [user, setUser] = useState(null)
@@ -63,7 +64,7 @@ export default function Profile() {
     }
 
     return (
-        <div>
+        <div className='relative'>
             <div className="profileInfo flex text-[#121212] items-center">
                 <div
                     className="avatarLayout w-[115px] h-[115px] rounded-full cursor-pointer overflow-hidden"
@@ -94,13 +95,20 @@ export default function Profile() {
                     </p>
                 </div>
             </div>
+            <div className='w-[150px] h-[150px] bg-[#5A00DA] rounded-xl p-3 absolute top-4 right-4'>
+                {user?.streak && (
+                    <StreakFlame
+                        lastUpdated={user.streak.lastUpdated}
+                        current={user.streak.current}
+                    />
+                )}
+            </div>
 
             {uploading && (
                 <div className="absolute top-5 right-5">
                     <CircularProgress size={24} color="secondary" />
                 </div>
             )}
-
             <Snackbar
                 open={alert.open}
                 autoHideDuration={4000}
