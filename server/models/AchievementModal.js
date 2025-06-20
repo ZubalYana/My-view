@@ -15,7 +15,8 @@ const AchievementSchema = new mongoose.Schema({
             date: { type: Date, default: Date.now },
             count: { type: Number, default: 1 },
         }
-    ]
+    ],
+    tags: { type: Array, default: [] },
 });
 
 module.exports = mongoose.model("Achievement", AchievementSchema);

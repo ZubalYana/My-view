@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
-import { TextField, Button, FormControlLabel } from "@mui/material";
+import { TextField, Button, FormControlLabel, Autocomplete } from "@mui/material";
 import Checkbox from '@mui/material/Checkbox';
 import { Plus } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
+
+
 export default function CreateAchievementModal({ isOpen, onClose, type, onFeedback }) {
     const queryClient = useQueryClient();
+    const defaultTags = ['Fitness', 'Study', 'Health', 'Work', 'Hobby'];
 
     const [formData, setFormData] = useState({
         actionName: "",
         repetitions: "",
+        tags: [],
         weekly: false,
         monthly: false,
         yearly: false,
@@ -49,7 +53,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
 
             const payload = JSON.parse(atob(token.split(".")[1]));
             const userId = payload.id;
-
+            console.log(formData)
             const response = await fetch("http://localhost:5000/achievements/create-achievement", {
                 method: "POST",
                 headers: {
@@ -69,6 +73,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     monthly: type === "monthly",
                     yearly: type === "yearly",
                     isRegular: false,
+                    tags: [],
                 });
                 onClose();
             } else {
@@ -115,25 +120,42 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             }}
         >
             <h2 className="text-2xl font-bold">Let's create a new achievement!</h2>
-            <TextField
-                label="How many times do you want to complete an action?"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                type="number"
-                name="repetitions"
-                value={formData.repetitions}
-                onChange={handleChange}
-            />
-            <TextField
-                label="What's the action you want to track? ( e.g. exercise, read a book )"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                name="actionName"
-                value={formData.actionName}
-                onChange={handleChange}
-            />
+            <div className="flex flex-col gap-4 mt-4 mb-2">
+                <TextField
+                    label="How many times do you want to complete an action?"
+                    variant="outlined"
+                    fullWidth
+                    type="number"
+                    name="repetitions"
+                    value={formData.repetitions}
+                    onChange={handleChange}
+                />
+                <TextField
+                    label="What's the action you want to track? ( e.g. exercise, read a book )"
+                    variant="outlined"
+                    fullWidth
+                    name="actionName"
+                    value={formData.actionName}
+                    onChange={handleChange}
+                />
+                <Autocomplete
+                    multiple
+                    freeSolo
+                    options={defaultTags}
+                    value={formData.tags || []}
+                    onChange={(event, newValue) => {
+                        setFormData(prev => ({ ...prev, tags: newValue }));
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            variant="outlined"
+                            label="Tags"
+                            placeholder="Select or type tags"
+                        />
+                    )}
+                />
+            </div>
             <FormControlLabel
                 control={
                     <Checkbox

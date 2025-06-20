@@ -32,7 +32,7 @@ function isAchievementExpired(achievement) {
 router.post("/create-achievement", async (req, res) => {
     try {
         console.log(req.body);
-        const { actionName, repetitions, weekly, monthly, yearly, userId, isRegular } = req.body;
+        const { actionName, repetitions, weekly, monthly, yearly, userId, isRegular, tags } = req.body;
 
         if (!actionName || !repetitions || (!weekly && !monthly && !yearly)) {
             return res.status(400).json({ message: "Invalid data" });
@@ -46,6 +46,7 @@ router.post("/create-achievement", async (req, res) => {
             yearly,
             isRegular: !!isRegular,
             user: userId,
+            tags: Array.isArray(tags) ? tags : [],
         });
 
         await newAchievement.save();
@@ -108,6 +109,7 @@ router.patch("/edit-achievement/:id", async (req, res) => {
             monthly,
             yearly,
             isRegular,
+            tags
         } = req.body;
 
         const achievement = await AchievementModal.findById(id);
@@ -121,6 +123,7 @@ router.patch("/edit-achievement/:id", async (req, res) => {
         if (monthly !== undefined) achievement.monthly = monthly;
         if (yearly !== undefined) achievement.yearly = yearly;
         if (isRegular !== undefined) achievement.isRegular = isRegular;
+        if (tags !== undefined) achievement.tags = Array.isArray(tags) ? tags : [];
 
         await achievement.save();
         res.status(200).json({ message: "Achievement updated successfully", achievement });
