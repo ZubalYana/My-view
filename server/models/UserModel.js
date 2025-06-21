@@ -10,8 +10,10 @@ const UserSchema = new mongoose.Schema({
         current: { type: Number, default: 0 },
         lastUpdated: { type: Date },
         longest: { type: Number, default: 0 }
-    }
-
+    },
+    XP: { type: Number, default: 0 },
+    level: { type: Number, default: 1 },
+    achievementsCompleted: { type: Number, default: 0 }
 });
 
 module.exports = mongoose.model('User', UserSchema);

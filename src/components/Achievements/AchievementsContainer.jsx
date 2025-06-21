@@ -5,6 +5,7 @@ import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import AchievementModal from "./AchievementModal";
 import AchievementCompletedModal from "./AchievementCompletedModal";
+import axios from "axios";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const fetchAchievements = async () => {
@@ -91,13 +92,33 @@ export default function AchievementsContainer({ type, onFeedback }) {
         updateAchievement.mutate(
             { id: achievement._id, completedRepetitions: newCompleted },
             {
-                onSuccess: () => {
+                onSuccess: async () => {
                     queryClient.invalidateQueries(["achievements"]);
+
                     if (wasIncomplete && willBeComplete) {
                         setJustCompletedAchievement(achievement);
                         setCelebrationModalOpen(true);
+
+                        const XPToAdd = achievement.repetitions * 10;
+
+                        try {
+                            await axios.patch(
+                                "http://localhost:5000/gamification/xp",
+                                { XPToAdd },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                                    },
+                                }
+                            );
+                            queryClient.invalidateQueries(["user"]);
+
+                        } catch (err) {
+                            console.error("Failed to add XP:", err);
+                        }
                     }
-                },
+                }
+
             }
         );
     };

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { UserCircle2 } from 'lucide-react'
 import { Alert, CircularProgress, Snackbar } from '@mui/material'
 import StreakFlame from './StreakFlame'
-
+import LevelProgress from './LevelProgress'
 export default function Profile() {
     const [user, setUser] = useState(null)
     const [uploading, setUploading] = useState(false)
@@ -67,7 +67,7 @@ export default function Profile() {
         <div className='relative'>
             <div className="profileInfo flex text-[#121212] items-center">
                 <div
-                    className="avatarLayout w-[115px] h-[115px] rounded-full cursor-pointer overflow-hidden"
+                    className="avatarLayout w-[105px] h-[105px] rounded-full cursor-pointer overflow-hidden"
                     onClick={handleAvatarClick}
                 >
                     {user?.photo ? (
@@ -95,6 +95,11 @@ export default function Profile() {
                     </p>
                 </div>
             </div>
+            <div className='mt-4'>
+                {user && (
+                    <LevelProgress level={user.level} XP={user.XP} />
+                )}
+            </div>
             {user?.streak && (
                 <StreakFlame
                     lastUpdated={user.streak.lastUpdated}
@@ -103,7 +108,6 @@ export default function Profile() {
                 />
 
             )}
-
             {uploading && (
                 <div className="absolute top-5 right-5">
                     <CircularProgress size={24} color="secondary" />
