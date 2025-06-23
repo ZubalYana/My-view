@@ -40,7 +40,10 @@ export default function AchievementsPage({ type }) {
                 onClose={() => setAlert({ message: "", severity: "" })}
                 anchorOrigin={{ vertical: "top", horizontal: "center" }}
             >
-                <Alert onClose={() => setAlert({ message: "", severity: "" })} severity={alert.severity}>
+                <Alert
+                    onClose={() => setAlert({ message: "", severity: "" })}
+                    severity={["success", "error", "warning", "info"].includes(alert.severity) ? alert.severity : "info"}
+                >
                     {alert.message}
                 </Alert>
             </Snackbar>

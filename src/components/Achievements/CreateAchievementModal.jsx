@@ -8,13 +8,24 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MenuItem, Select, InputLabel } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-
-
 export default function CreateAchievementModal({ isOpen, onClose, type, onFeedback }) {
     const queryClient = useQueryClient();
     const defaultTags = ['Fitness', 'Study', 'Health', 'Work', 'Hobby'];
     const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
+    const [isTelegramConnected, setIsTelegramConnected] = useState(false);
+    const [showConnectTelegram, setShowConnectTelegram] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const initialState = {
+        actionName: "",
+        repetitions: "",
+        tags: [],
+        weekly: false,
+        monthly: false,
+        yearly: false,
+        isRegular: false,
+        reminderDays: [],
+        reminderTime: "",
+    };
     const [formData, setFormData] = useState({
         actionName: "",
         repetitions: "",
@@ -36,9 +47,6 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
         }));
     }, [type]);
 
-
-
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData((prev) => ({
@@ -47,18 +55,48 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
         }));
     };
 
+    useEffect(() => {
+        async function checkTelegram() {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            setUserId(payload.id);
+            const res = await fetch("http://localhost:5000/auth/user", {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) return;
+            const userData = await res.json();
+            setIsTelegramConnected(userData.telegram?.isConnected ?? false);
+        }
+        checkTelegram();
+    }, []);
+
+
 
     const handleSubmit = async () => {
         try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("No token found");
+            if (formData.reminderDays.length && formData.reminderTime && !isTelegramConnected) {
+                setShowConnectTelegram(true);
+                onFeedback("Please connect our Telegram bot to enable reminders.", "warning");
                 return;
             }
+            const token = localStorage.getItem("token");
+            if (!token) return console.error("No token found");
 
             const payload = JSON.parse(atob(token.split(".")[1]));
-            const userId = payload.id;
-            console.log(formData)
+
+            if (formData.reminderDays.length && formData.reminderTime) {
+                const tgCheck = await fetch("http://localhost:5000/auth/user", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                const userData = await tgCheck.json();
+
+                if (!userData?.telegram?.isConnected) {
+                    onFeedback("Please connect our Telegram bot to enable reminders.", "warning");
+                    return;
+                }
+            }
 
             const reminders = formData.reminderDays.map(day => ({
                 day,
@@ -77,25 +115,18 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             if (response.ok) {
                 onFeedback("Achievement created successfully!", "success");
                 queryClient.invalidateQueries(["achievements"]);
-                setFormData({
-                    actionName: "",
-                    repetitions: "",
-                    weekly: type === "weekly",
-                    monthly: type === "monthly",
-                    yearly: type === "yearly",
-                    isRegular: false,
-                    tags: [],
-                    reminderDays: [],
-                    reminderTime: "",
-                });
+                setFormData({ ...initialState, ...{ weekly: type === "weekly", monthly: type === "monthly", yearly: type === "yearly" } });
                 onClose();
             } else {
                 onFeedback("Failed to create achievement. Try again.", "error");
             }
         } catch (error) {
-            onFeedback("An error occurred. Please try again.", error);
+            console.error(error);
+            onFeedback("An error occurred. Please try again.", "error");
         }
+
     };
+
 
 
     return (
@@ -123,6 +154,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     maxHeight: "80%",
                     height: "fit-content",
                     overflow: "hidden",
+                    overflowY: "auto",
                     borderRadius: "8px",
                     outline: "none",
                     padding: "35px",
@@ -190,7 +222,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     type="time"
                     fullWidth
                     InputLabelProps={{ shrink: true }}
-                    inputProps={{ step: 300 }} // 5 minutes
+                    inputProps={{ step: 300 }}
                     value={formData.reminderTime}
                     onChange={(e) => setFormData(prev => ({ ...prev, reminderTime: e.target.value }))}
                     sx={{ marginTop: 2 }}
@@ -198,6 +230,45 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                         startAdornment: <AccessTimeIcon sx={{ marginRight: 1 }} />
                     }}
                 />
+
+                {showConnectTelegram && (
+                    <div style={{ marginTop: 20, padding: 15, border: "1px solid #ccc", borderRadius: 8 }}>
+                        <h3>Connect Telegram Bot</h3>
+                        <p>To receive reminders, connect with our Telegram bot:</p>
+                        <a
+                            href={`https://t.me/MyViewApplication_Bot?start=${userId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ color: "#0057ff", fontWeight: "bold" }}
+                        >
+                            👉 Click here to connect your Telegram
+                        </a>
+                        <p style={{ marginTop: 10 }}>After starting the bot, come back and press "Retry".</p>
+
+                        <Button
+                            variant="outlined"
+                            sx={{ mt: 1 }}
+                            onClick={async () => {
+                                const token = localStorage.getItem("token");
+                                const res = await fetch("http://localhost:5000/auth/user", {
+                                    headers: { Authorization: `Bearer ${token}` },
+                                });
+                                const user = await res.json();
+                                if (user.telegram?.isConnected) {
+                                    setIsTelegramConnected(true);
+                                    setShowConnectTelegram(false);
+                                    onFeedback("Telegram connected successfully!", "success");
+                                } else {
+                                    onFeedback("Telegram not connected yet. Try again.", "error");
+                                }
+                            }}
+                        >
+                            Retry
+                        </Button>
+                    </div>
+                )}
+
+
 
             </div>
             <FormControlLabel

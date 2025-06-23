@@ -7,10 +7,12 @@ const dotenv = require('dotenv').config();
 const authMiddleware = require('./middleware/authMiddleware');
 const swaggerDocs = require('./swaggerConfig');
 
-//import Routes
 const authRoutes = require('./routes/authRoutes');
 const achievementsRoutes = require('./routes/achievementsRoutes');
 const gamificationRoutes = require('./routes/gamificationRoutes');
+const telegramRoutes = require("./routes/telegram");
+
+require('./bot.js')
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -22,14 +24,12 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(cors());
 app.use(express.json());
 
-//use Routes
 app.use('/auth', authRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/gamification', gamificationRoutes);
-
+app.use("/telegram", telegramRoutes);
 
 swaggerDocs(app);
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -13,7 +13,11 @@ const UserSchema = new mongoose.Schema({
     },
     XP: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
-    achievementsCompleted: { type: Number, default: 0 }
+    achievementsCompleted: { type: Number, default: 0 },
+    telegram: {
+        chatId: { type: String },
+        isConnected: { type: Boolean, default: false }
+    }
 });
 
 module.exports = mongoose.model('User', UserSchema);
