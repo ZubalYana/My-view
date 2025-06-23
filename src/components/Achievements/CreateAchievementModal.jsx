@@ -59,13 +59,19 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             const payload = JSON.parse(atob(token.split(".")[1]));
             const userId = payload.id;
             console.log(formData)
+
+            const reminders = formData.reminderDays.map(day => ({
+                day,
+                time: formData.reminderTime,
+            }));
+
             const response = await fetch("http://localhost:5000/achievements/create-achievement", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ ...formData, userId }),
+                body: JSON.stringify({ ...formData, reminders, userId }),
             });
 
             if (response.ok) {
@@ -162,6 +168,37 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                         />
                     )}
                 />
+                <InputLabel id="reminder-days-label">Remind me on</InputLabel>
+                <Select
+                    labelId="reminder-days-label"
+                    multiple
+                    fullWidth
+                    value={formData.reminderDays}
+                    onChange={(e) => setFormData(prev => ({ ...prev, reminderDays: e.target.value }))}
+                    renderValue={(selected) => selected.join(", ")}
+                >
+                    {weekDays.map(day => (
+                        <MenuItem key={day} value={day}>
+                            <Checkbox checked={formData.reminderDays.includes(day)} />
+                            {day}
+                        </MenuItem>
+                    ))}
+                </Select>
+
+                <TextField
+                    label="Reminder time"
+                    type="time"
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ step: 300 }} // 5 minutes
+                    value={formData.reminderTime}
+                    onChange={(e) => setFormData(prev => ({ ...prev, reminderTime: e.target.value }))}
+                    sx={{ marginTop: 2 }}
+                    InputProps={{
+                        startAdornment: <AccessTimeIcon sx={{ marginRight: 1 }} />
+                    }}
+                />
+
             </div>
             <FormControlLabel
                 control={
@@ -173,8 +210,6 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                 }
                 label="Mark as a regular achievement"
             />
-
-
             <Button
                 variant="contained"
                 color="primary"

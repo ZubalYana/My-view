@@ -9,7 +9,7 @@ export default function AchievementCompletedModal({ open, onClose, achievement }
     const { actionName, repetitions, createdAt } = achievement;
 
     const createdDate = parseISO(createdAt);
-    const completedDate = new Date(); // now
+    const completedDate = new Date();
     const durationInDays = differenceInDays(completedDate, createdDate);
 
     const formattedCreatedDate = format(createdDate, "dd.MM");

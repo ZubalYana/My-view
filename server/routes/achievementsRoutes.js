@@ -32,7 +32,17 @@ function isAchievementExpired(achievement) {
 router.post("/create-achievement", async (req, res) => {
     try {
         console.log(req.body);
-        const { actionName, repetitions, weekly, monthly, yearly, userId, isRegular, tags } = req.body;
+        const {
+            actionName,
+            repetitions,
+            weekly,
+            monthly,
+            yearly,
+            userId,
+            isRegular,
+            tags,
+            reminders, // ⬅️ added
+        } = req.body;
 
         if (!actionName || !repetitions || (!weekly && !monthly && !yearly)) {
             return res.status(400).json({ message: "Invalid data" });
@@ -47,10 +57,11 @@ router.post("/create-achievement", async (req, res) => {
             isRegular: !!isRegular,
             user: userId,
             tags: Array.isArray(tags) ? tags : [],
+            reminders: Array.isArray(reminders) ? reminders : [], // ✅ safely include reminders
         });
 
         await newAchievement.save();
-        res.status(201).json({ message: "Achievement created successfully" });
+        res.status(201).json({ message: "Achievement created successfully", achievement: newAchievement });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
@@ -70,7 +81,7 @@ router.get("/get-achievements", async (req, res) => {
 router.patch("/update/:id", authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const { completedRepetitions } = req.body;
+        const { completedRepetitions, reminders } = req.body;
 
         const achievement = await AchievementModal.findById(id);
         if (!achievement) {
@@ -91,6 +102,11 @@ router.patch("/update/:id", authenticateToken, async (req, res) => {
         }
 
         achievement.completedRepetitions = Math.max(0, Math.min(completedRepetitions, achievement.repetitions));
+
+        // ✅ Update reminders if sent
+        if (Array.isArray(reminders)) {
+            achievement.reminders = reminders;
+        }
 
         await achievement.save();
 
