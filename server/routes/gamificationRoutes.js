@@ -20,7 +20,6 @@ router.patch("/xp", authenticateToken, async (req, res) => {
         user.XP += XPToAdd;
 
         while (user.XP >= getXPForNextLevel(user.level)) {
-            user.XP -= getXPForNextLevel(user.level);
             user.level += 1;
         }
 

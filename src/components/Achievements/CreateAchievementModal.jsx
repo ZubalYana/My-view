@@ -5,12 +5,15 @@ import { TextField, Button, FormControlLabel, Autocomplete } from "@mui/material
 import Checkbox from '@mui/material/Checkbox';
 import { Plus } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { MenuItem, Select, InputLabel } from "@mui/material";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 
 
 export default function CreateAchievementModal({ isOpen, onClose, type, onFeedback }) {
     const queryClient = useQueryClient();
     const defaultTags = ['Fitness', 'Study', 'Health', 'Work', 'Hobby'];
+    const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
     const [formData, setFormData] = useState({
         actionName: "",
@@ -20,6 +23,8 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
         monthly: false,
         yearly: false,
         isRegular: false,
+        reminderDays: [],
+        reminderTime: "",
     });
 
     useEffect(() => {
@@ -74,6 +79,8 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     yearly: type === "yearly",
                     isRegular: false,
                     tags: [],
+                    reminderDays: [],
+                    reminderTime: "",
                 });
                 onClose();
             } else {

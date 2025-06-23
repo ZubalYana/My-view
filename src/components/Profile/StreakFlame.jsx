@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StreakCalendarModal from "./StreakCalendarModal";
+import { Flame, FlameKindling } from "lucide-react";
+import { Box } from "@mui/material";
 
 export default function StreakFlame({ lastUpdated, current, longest, activeDates }) {
     const [status, setStatus] = useState("dead");
@@ -11,16 +13,17 @@ export default function StreakFlame({ lastUpdated, current, longest, activeDates
         const last = new Date(lastUpdated);
         last.setHours(0, 0, 0, 0);
 
-        const diff = today.getTime() - last.getTime();
+        const diffDays = (today - last) / (1000 * 60 * 60 * 24);
 
-        if (diff === 0) {
+        if (diffDays === 0) {
             setStatus("active");
-        } else if (diff === 86400000) {
+        } else if (diffDays === 1) {
             setStatus("smoulder");
         } else {
             setStatus("dead");
         }
     }, [lastUpdated]);
+
 
     const animation = {
         active: "/activeFlame.webm",
@@ -33,7 +36,7 @@ export default function StreakFlame({ lastUpdated, current, longest, activeDates
     return (
         <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl p-3 absolute top-4 right-4'
             onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
-            <div className="flex flex-col items-center gap-2 text-center">
+            <div className="flex flex-col items-center text-center">
                 <div
                     style={{
                         width: "120px",
@@ -45,25 +48,26 @@ export default function StreakFlame({ lastUpdated, current, longest, activeDates
                         alignItems: "center",
                     }}
                 >
-                    <video
-                        key={animation[status]}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{
-                            minWidth: "100%",
-                            minHeight: "100%",
-                            objectFit: "cover",
+                    <Box
+                        sx={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 2,
+                            bgcolor: "#7F3CE0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                         }}
                     >
-                        <source src={animation[status]} type="video/webm" />
-                        Your browser does not support the video tag.
-                    </video>
+                        {status === "active" && <Flame color="#FF9100" size={48} />}
+                        {status === "smoulder" && <Flame color="#FFCC80" size={48} style={{ opacity: 0.6 }} />}
+                        {status === "dead" && <FlameKindling color="#B0BEC5" size={48} />}
+                    </Box>
+
                 </div>
 
                 <span
-                    className="font-medium text-[14px] text-[#F5F5F5] "
+                    className="font-medium text-[16px] text-[#F5F5F5] mt-2"
                 >
                     <span className="font-bold">{current}</span>-day streak <br />
                     {isCurrentLongest && " ( Longest! )"}

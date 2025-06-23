@@ -17,6 +17,23 @@ const AchievementSchema = new mongoose.Schema({
         }
     ],
     tags: { type: Array, default: [] },
+
+    reminders: {
+        type: [
+            {
+                day: {
+                    type: String,
+                    enum: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    required: true,
+                },
+                time: {
+                    type: String,
+                    required: true,
+                }
+            }
+        ],
+        default: []
+    }
 });
 
 module.exports = mongoose.model("Achievement", AchievementSchema);
