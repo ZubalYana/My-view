@@ -4,6 +4,7 @@ import { UserCircle2 } from 'lucide-react'
 import { Alert, CircularProgress, Snackbar } from '@mui/material'
 import StreakFlame from './StreakFlame'
 import LevelProgress from './LevelProgress'
+import HashtagFocusChart from './HashtagFocusChart'
 export default function Profile() {
     const [user, setUser] = useState(null)
     const [uploading, setUploading] = useState(false)
@@ -100,6 +101,7 @@ export default function Profile() {
                     <LevelProgress level={user.level} XP={user.XP} />
                 )}
             </div>
+            {/* <HashtagFocusChart /> */}
             {user?.streak && (
                 <StreakFlame
                     lastUpdated={user.streak.lastUpdated}

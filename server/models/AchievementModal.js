@@ -17,7 +17,6 @@ const AchievementSchema = new mongoose.Schema({
         }
     ],
     tags: { type: Array, default: [] },
-
     reminders: {
         type: [
             {
@@ -33,7 +32,8 @@ const AchievementSchema = new mongoose.Schema({
             }
         ],
         default: []
-    }
+    },
+
 });
 
 module.exports = mongoose.model("Achievement", AchievementSchema);

@@ -57,8 +57,9 @@ router.post("/create-achievement", async (req, res) => {
             isRegular: !!isRegular,
             user: userId,
             tags: Array.isArray(tags) ? tags : [],
-            reminders: Array.isArray(reminders) ? reminders : [], // ✅ safely include reminders
+            reminders: Array.isArray(reminders) ? reminders : [],
         });
+
 
         await newAchievement.save();
         res.status(201).json({ message: "Achievement created successfully", achievement: newAchievement });

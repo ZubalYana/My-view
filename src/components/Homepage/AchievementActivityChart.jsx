@@ -29,9 +29,19 @@ export default function AchievementActivityChart() {
                     return acc;
                 }, {});
 
-                const chartData = Object.entries(grouped).map(([date, total]) => ({
+                // Add missing dates
+                const today = new Date();
+                const daysBack = 14;
+                const fullDateList = [];
+                for (let i = 0; i <= daysBack; i++) {
+                    const d = new Date(today);
+                    d.setDate(d.getDate() - i);
+                    fullDateList.unshift(d.toISOString().split("T")[0]);
+                }
+
+                const chartData = fullDateList.map((date) => ({
                     date,
-                    total,
+                    total: grouped[date] || 0,
                 }));
 
                 setData(chartData);
@@ -42,6 +52,7 @@ export default function AchievementActivityChart() {
 
         fetchActivity();
     }, []);
+
 
     return (
         <div className="w-full h-[300px] mt-5 bg-white rounded-xl shadow-md p-5">

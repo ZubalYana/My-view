@@ -1,6 +1,8 @@
+const cron = require('node-cron');
 const TelegramBot = require("node-telegram-bot-api");
 const User = require("./models/UserModel");
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+const Achievement = require("./models/AchievementModal");
 
 bot.onText(/\/start (.+)/, async (msg, match) => {
     const userId = match[1];
