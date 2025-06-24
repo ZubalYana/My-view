@@ -50,11 +50,9 @@ export default function Burger() {
                     },
                 }}
             >
-                <div className="flex justify-end mb-4">
-                    <button onClick={() => setIsOpen(false)} className="text-[#5A00DA]">
-                        <X size={24} />
-                    </button>
-                </div>
+                <button onClick={() => setIsOpen(false)} className="text-[#5A00DA] absolute top-4 right-4">
+                    <X size={24} />
+                </button>
                 <nav className="flex flex-col items-center gap-4 text-lg font-semibold">
                     <a href="/" className="text-[#121212] hover:text-[#5A00DA] transition-colors">Home</a>
                     <a href="/achievements-weekly" className="text-[#121212] hover:text-[#5A00DA] transition-colors">Weekly</a>

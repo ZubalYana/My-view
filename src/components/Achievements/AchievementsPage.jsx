@@ -3,7 +3,7 @@ import { Alert, Snackbar } from "@mui/material";
 import CreateAchievementBtn from "./CreateAchievementBtn";
 import CreateAchievementModal from "./CreateAchievementModal";
 import AchievementsContainer from "./AchievementsContainer";
-
+import Burger from "../Burger";
 export default function AchievementsPage({ type }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alert, setAlert] = useState({ message: "", severity: "" });
@@ -19,7 +19,11 @@ export default function AchievementsPage({ type }) {
 
     return (
         <div>
-            <h1 className="text-xl font-semibold w-full flex justify-center">{type} Achievements Board: <span className="text-[#5A00DA] ml-2">{dateRange}</span></h1>
+            <Burger />
+            <h1 className="text-[16px] font-semibold w-[85%] lg:text-xl lg:flex lg:justify-center lg:w-auto">
+                {type} Achievements Board: <span className="text-[#5A00DA] lg:ml-2">{dateRange}</span>
+            </h1>
+
             <CreateAchievementBtn onClick={() => setIsModalOpen(true)} />
             <CreateAchievementModal
                 isOpen={isModalOpen}
