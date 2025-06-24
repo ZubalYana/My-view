@@ -29,7 +29,6 @@ export default function AchievementActivityChart() {
                     return acc;
                 }, {});
 
-                // Add missing dates
                 const today = new Date();
                 const daysBack = 14;
                 const fullDateList = [];
@@ -55,7 +54,7 @@ export default function AchievementActivityChart() {
 
 
     return (
-        <div className="w-full h-[300px] mt-5 bg-white rounded-xl shadow-md p-5">
+        <div className="w-full h-[300px] mt-5 bg-white rounded-xl shadow-md p-3 lg:p-5">
             <h3 className="text-lg font-semibold mb-4 text-[#121212]">Daily Achievement Activity</h3>
             <ResponsiveContainer width="100%" height="80%">
                 <LineChart data={data}>

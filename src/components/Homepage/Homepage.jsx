@@ -3,9 +3,11 @@ import DynamicGreating from './DynamicGreating'
 import CircularProgressbarsContainer from '../CircularProgressbarsContainer/CircularProgressbarsContainer'
 import TimeLine from './timeLine'
 import AchievementActivityChart from './AchievementActivityChart'
+import Burger from '../Burger'
 export default function Homepage() {
   return (
     <div>
+      <Burger />
       <div className='w-full flex flex-col lg:justify-between lg:flex-row'>
         <div>
           <DynamicGreating />
