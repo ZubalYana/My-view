@@ -37,48 +37,48 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const passwordError = validatePassword(password);
     if (passwordError) {
       setPasswordError(passwordError);
       return;
     }
-  
+
     dispatch(registerUser({ username, email, password })).then((result) => {
       if (registerUser.fulfilled.match(result)) {
         localStorage.setItem('token', result.payload.token);
-        onSuccess(); 
+        onSuccess();
       }
     });
   };
 
 
 
-  
+
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
   return (
-    <div className="loginForm bg-white w-full h-fit mt-[20px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
-    lg:w-[500px] lg:min-h-[540px] lg:h-fit lg:m-0 lg:p-[50px]
+    <div className="loginForm bg-white w-full h-fit mt-[10px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
+    lg:w-[500px] lg:min-h-[540px] lg:h-fit lg:m-0 lg:p-[50px] lg:mt-[20px]
     ">
       <h1 className="text-2xl font-bold lg:text-3xl">Sign up</h1>
       <p className="mt-[15px] text-sm font-light mb-[20px] lg:text-base lg:mb-[30px]">
-        Don’t have an account yet? Let’s get you into <span className="text-[var(--custom-purple)] font-medium">My View</span>. 
+        Don’t have an account yet? Let’s get you into <span className="text-[var(--custom-purple)] font-medium">My View</span>.
         You’re now going to open so many opportunities!
       </p>
 
-      <TextField 
-        label="Your name" 
-        variant="outlined" 
-        className="w-full" 
+      <TextField
+        label="Your name"
+        variant="outlined"
+        className="w-full"
         value={username}
         onChange={handleChange('username')}
       />
-      <TextField 
-        label="Your email" 
-        variant="outlined" 
-        className="w-full" 
+      <TextField
+        label="Your email"
+        variant="outlined"
+        className="w-full"
         style={{ marginTop: "15px" }}
         value={email}
         onChange={handleChange('email')}
@@ -92,7 +92,7 @@ export default function RegistrationForm({ onSwitch, onSuccess }) {
         value={password}
         onChange={handleChange('password')}
         error={passwordError !== ""}
-        helperText={passwordError} 
+        helperText={passwordError}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">

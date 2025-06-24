@@ -16,7 +16,7 @@ export default function LoginForm({ onSwitch }) {
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
   const handleLogin = async () => {
-    setError(''); 
+    setError('');
     try {
       const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
@@ -35,8 +35,8 @@ export default function LoginForm({ onSwitch }) {
   };
 
   return (
-    <div className="loginForm bg-white w-full h-fit mt-[20px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
-    lg:w-[500px] lg:h-[540px] lg:m-0 lg:p-[50px]
+    <div className="loginForm bg-white w-full h-fit mt-[10px] shadow-2xl rounded-[20px] p-[25px] text-[var(--custom-black)]
+    lg:w-[500px] lg:h-[540px] lg:m-0 lg:p-[50px] lg:mt-[20px]
     ">
       <h1 className="text-2xl font-bold lg:text-3xl">Log in</h1>
       <p className="mt-[15px] text-sm font-light mb-[20px] lg:text-base lg:mb-[30px]">
@@ -44,12 +44,12 @@ export default function LoginForm({ onSwitch }) {
         <span className="text-[var(--custom-purple)] font-medium"> My View </span>
         account to continue setting and achieving.
       </p>
-      <TextField 
-        id="outlined-basic" 
-        label="Your email" 
-        variant="outlined" 
-        className="w-full" 
-        onChange={(e) => setEmail(e.target.value)} 
+      <TextField
+        id="outlined-basic"
+        label="Your email"
+        variant="outlined"
+        className="w-full"
+        onChange={(e) => setEmail(e.target.value)}
       />
       <TextField
         id="password"
@@ -71,30 +71,30 @@ export default function LoginForm({ onSwitch }) {
       />
       <p className="text-sm font-normal w-full flex justify-end mt-[10px] cursor-pointer mb-[30px]">Forgot password?</p>
       <Button
-  variant="contained"
-  fullWidth
-  sx={{
-    backgroundColor: "var(--custom-purple)",
-    color: "var(--custom-white)",
-    fontSize: "18px",
-    fontWeight: 500,
-    textTransform: "uppercase",
-    height: "50px",
-    borderRadius: "10px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "10px",
-    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-    "&:hover": {
-      transform: "scale(1.05)",
-      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
-    },
-  }}
-  onClick={handleLogin}
->
-  <LoginIcon />
-  <span>Log in</span>
+        variant="contained"
+        fullWidth
+        sx={{
+          backgroundColor: "var(--custom-purple)",
+          color: "var(--custom-white)",
+          fontSize: "18px",
+          fontWeight: 500,
+          textTransform: "uppercase",
+          height: "50px",
+          borderRadius: "10px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+        onClick={handleLogin}
+      >
+        <LoginIcon />
+        <span>Log in</span>
 
       </Button>
 

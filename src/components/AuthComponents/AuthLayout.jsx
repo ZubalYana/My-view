@@ -47,8 +47,6 @@ export default function AuthLayout() {
       </div>
       <CircledBackground />
 
-
-      {/* Success Snackbar */}
       <Snackbar
         open={!!successMessage}
         autoHideDuration={4000}
