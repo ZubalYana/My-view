@@ -101,7 +101,7 @@ export default function Profile() {
                     <LevelProgress level={user.level} XP={user.XP} />
                 )}
             </div>
-            {/* <HashtagFocusChart /> */}
+            <HashtagFocusChart />
             {user?.streak && (
                 <StreakFlame
                     lastUpdated={user.streak.lastUpdated}

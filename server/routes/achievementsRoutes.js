@@ -41,7 +41,7 @@ router.post("/create-achievement", async (req, res) => {
             userId,
             isRegular,
             tags,
-            reminders, // ⬅️ added
+            reminders,
         } = req.body;
 
         if (!actionName || !repetitions || (!weekly && !monthly && !yearly)) {
@@ -128,7 +128,8 @@ router.patch("/edit-achievement/:id", async (req, res) => {
             monthly,
             yearly,
             isRegular,
-            tags
+            tags,
+            reminders
         } = req.body;
 
         const achievement = await AchievementModal.findById(id);
@@ -143,6 +144,7 @@ router.patch("/edit-achievement/:id", async (req, res) => {
         if (yearly !== undefined) achievement.yearly = yearly;
         if (isRegular !== undefined) achievement.isRegular = isRegular;
         if (tags !== undefined) achievement.tags = Array.isArray(tags) ? tags : [];
+        if (reminders !== undefined) achievement.reminders = reminders;
 
         await achievement.save();
         res.status(200).json({ message: "Achievement updated successfully", achievement });

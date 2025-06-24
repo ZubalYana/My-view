@@ -18,6 +18,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [editedTags, setEditedTags] = useState(achievement.tags || []);
     const defaultTags = ["Fitness", "Study", "Health", "Work", "Hobby"];
+    const [editedReminders, setEditedReminders] = useState(achievement.reminders || []);
 
     const countProgressPercentage = (completedRepetitions, repetitions) => {
         return Math.round((completedRepetitions / repetitions) * 100);
@@ -33,6 +34,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                     actionName: editedActionName,
                     repetitions: editedRepetitions,
                     tags: editedTags,
+                    reminders: editedReminders,
                 }
             );
             return response.data;
@@ -204,6 +206,58 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                                     />
                                 )}
                             />
+                            <div className="mt-4">
+                                {editedReminders.map((reminder, index) => (
+                                    <div key={index} className="flex gap-3 items-center mb-2">
+                                        <TextField
+                                            label="Day"
+                                            select
+                                            value={reminder.day}
+                                            onChange={(e) => {
+                                                const newReminders = [...editedReminders];
+                                                newReminders[index].day = e.target.value;
+                                                setEditedReminders(newReminders);
+                                            }}
+                                            SelectProps={{ native: true }}
+                                            sx={{ width: "130px" }}
+                                        >
+                                            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                                                <option key={day} value={day}>{day}</option>
+                                            ))}
+                                        </TextField>
+                                        <TextField
+                                            label="Time"
+                                            type="time"
+                                            value={reminder.time}
+                                            onChange={(e) => {
+                                                const newReminders = [...editedReminders];
+                                                newReminders[index].time = e.target.value;
+                                                setEditedReminders(newReminders);
+                                            }}
+                                            sx={{ width: "150px" }}
+                                            InputLabelProps={{ shrink: true }}
+                                            inputProps={{ step: 300 }}
+                                        />
+                                        <Button
+                                            color="error"
+                                            onClick={() => {
+                                                const newReminders = editedReminders.filter((_, i) => i !== index);
+                                                setEditedReminders(newReminders);
+                                            }}
+                                        >
+                                            <Trash2 className="w-[18px]" />
+                                        </Button>
+                                    </div>
+                                ))}
+                                <Button
+                                    variant="outlined"
+                                    sx={{ mt: 1, borderColor: "#5A00DA", color: "#5A00DA", textTransform: "none" }}
+                                    onClick={() => setEditedReminders([...editedReminders, { day: "Monday", time: "12:00" }])}
+                                >
+                                    + Add Reminder
+                                </Button>
+                            </div>
+
 
                         </div>
                     )}

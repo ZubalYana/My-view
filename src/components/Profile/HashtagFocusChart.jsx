@@ -10,15 +10,16 @@ import {
 } from "recharts";
 
 const COLORS = [
-    "#0088FE",
-    "#00C49F",
-    "#FFBB28",
-    "#FF8042",
-    "#a855f7",
-    "#ec4899",
-    "#3b82f6",
-    "#f87171",
+    "#5A00DA",
+    "#9333EA",
+    "#C084FC",
+    "#a68bcc",
+    "#492e70",
+    "#3a1c9c",
+    "#9c40ff",
+    "#A3A3A3",
 ];
+
 
 export default function HashtagFocusChart() {
     const [data, setData] = useState([]);
@@ -27,13 +28,13 @@ export default function HashtagFocusChart() {
         const fetchAchievements = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/achievements", {
+                const res = await axios.get("http://localhost:5000/achievements/get-achievements", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
                 const counts = {};
                 res.data.forEach((achievement) => {
-                    (achievement.hashtags || []).forEach((tag) => {
+                    (achievement.tags || []).forEach((tag) => {
                         counts[tag] = (counts[tag] || 0) + 1;
                     });
                 });
@@ -53,7 +54,7 @@ export default function HashtagFocusChart() {
     }, []);
 
     return (
-        <div className="w-full h-[300px] mt-5 bg-white rounded-xl shadow-md p-5">
+        <div className="w-[40%] h-[400px] mt-5 bg-white rounded-xl shadow-md p-5">
             <h3 className="text-lg font-semibold mb-4 text-[#121212]">Focus by Life Areas</h3>
             <ResponsiveContainer width="100%" height="80%">
                 <PieChart>

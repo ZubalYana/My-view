@@ -151,7 +151,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     transform: "translate(-50%, -50%)",
                     width: "38%",
                     minHeight: "50%",
-                    maxHeight: "80%",
+                    maxHeight: "90%",
                     height: "fit-content",
                     overflow: "hidden",
                     overflowY: "auto",
@@ -225,7 +225,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     inputProps={{ step: 300 }}
                     value={formData.reminderTime}
                     onChange={(e) => setFormData(prev => ({ ...prev, reminderTime: e.target.value }))}
-                    sx={{ marginTop: 2 }}
+                    sx={{ marginTop: 1 }}
                     InputProps={{
                         startAdornment: <AccessTimeIcon sx={{ marginRight: 1 }} />
                     }}
