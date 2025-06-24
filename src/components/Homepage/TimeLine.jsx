@@ -62,12 +62,12 @@ export default function TimeLine() {
     }, []);
 
     return (
-        <div className="w-[515px] h-[290px] bg-[#5A00DA] rounded-2xl p-6">
+        <div className="w-full h-fit-content bg-[#5A00DA] rounded-2xl p-4 mt-4 lg:w-[515px] lg:h-[290px] lg:mt-0 lg:p-6">
             <div className="w-full flex justify-between">
-                <p className="text-2xl font-semibold text-[#F5F5F5]">{dateTime.dayOfWeek}</p>
-                <p className="text-base font-normal text-[#F5F5F5]">{dateTime.currentTime}</p>
+                <p className="text-xl font-semibold text-[#F5F5F5] lg:text-2xl">{dateTime.dayOfWeek}</p>
+                <p className="text-[14px] font-normal text-[#F5F5F5] lg:text-base">{dateTime.currentTime}</p>
             </div>
-            <p className="text-base text-[#F5F5F5] mt-2 flex items-center">
+            <p className="text-[14px] text-[#F5F5F5] mt-2 flex items-center lg:text-base">
                 <CalendarHeart className="inline-block mr-2" size={20} />
                 {dateTime.date}
             </p>

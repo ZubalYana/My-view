@@ -46,7 +46,7 @@ export default function DynamicGreating() {
     if (isError) return <div>Error: {error.message}</div>;
 
     return (
-        <h1 className="flex items-center text-[#121212] text-2xl font-bold">
+        <h1 className="flex items-center text-[#121212] font-bold text-[16px] lg:text-2xl">
             <span className="mr-2 text-[#5A00DA]">{icon}</span> {greeting}, {user?.username || "Guest"}!
         </h1>
     );

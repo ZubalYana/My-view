@@ -24,7 +24,7 @@ export default function SideMenu() {
   ];
 
   return (
-    <div className="SideMenu w-[19%] h-[100vh] bg-[#5A00DA] text-[#F5F5F5] p-8 z-50 xs:hidden lg:block">
+    <div className="SideMenu w-[19%] h-[100vh] bg-[#5A00DA] text-[#F5F5F5] p-8 z-50 hidden lg:block">
       <AnimatedLogo />
       <motion.div
         className="animatedLine bg-white h-[1px] mt-2"

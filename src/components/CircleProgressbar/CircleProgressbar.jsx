@@ -3,6 +3,22 @@ import React, { useEffect, useState } from "react";
 const CircularProgressbar = ({ percentage, description }) => {
     const [progress, setProgress] = useState(0);
     const [displayedPercentage, setDisplayedPercentage] = useState(0);
+    const [radius, setRadius] = useState(55);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth < 640) {
+                setRadius(38); // Small screen radius
+            } else {
+                setRadius(55); // Default radius
+            }
+        };
+
+        handleResize(); // Run once
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => setProgress(percentage), 200);
@@ -22,11 +38,12 @@ const CircularProgressbar = ({ percentage, description }) => {
         return () => clearInterval(interval);
     }, [progress, percentage]);
 
-    const radius = 55;
     const stroke = 11;
     const normalizedRadius = radius - stroke / 2;
     const circumference = normalizedRadius * 2 * Math.PI;
     const strokeDashoffset = circumference - (progress / 100) * circumference;
+    const isLargeScreen = window.innerWidth >= 700;
+    const fontSize = isLargeScreen ? 24 : 18;
 
     return (
         <div className="flex flex-col items-center">
@@ -58,7 +75,7 @@ const CircularProgressbar = ({ percentage, description }) => {
                     y={radius}
                     textAnchor="middle"
                     dy=".3em"
-                    fontSize="24px"
+                    fontSize={fontSize}
                     fontWeight="bold"
                     fill="#121212"
                     fontFamily="MuseoModerno"
@@ -66,7 +83,7 @@ const CircularProgressbar = ({ percentage, description }) => {
                     {displayedPercentage}%
                 </text>
             </svg>
-            <p className="mt-2 text-[#121212] text-sm w-[165px] text-center">{description}</p>
+            <p className="mt-2 text-[#121212] text-[12px] text-center w-[100px] lg:text-sm lg:w-[165px]">{description}</p>
         </div>
     );
 };

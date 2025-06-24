@@ -6,10 +6,10 @@ import AchievementActivityChart from './AchievementActivityChart'
 export default function Homepage() {
   return (
     <div>
-      <div className='w-full flex justify-between'>
+      <div className='w-full flex flex-col lg:justify-between lg:flex-row'>
         <div>
           <DynamicGreating />
-          <p className='mt-1 text-base'>Let’s get on track with your life!</p>
+          <p className='mt-1 text-[14px] lg:text-base'>Let’s get on track with your life!</p>
           <CircularProgressbarsContainer />
         </div>
         <TimeLine />

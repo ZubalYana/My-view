@@ -41,7 +41,7 @@ const CircularProgressbarsContainer = () => {
     const yearlyPercentage = calculatePercentage("yearly");
 
     return (
-        <div className="w-[540px] flex justify-between mt-10">
+        <div className="w-full flex justify-between mt-6 md:w-[540px] lg:mt-10">
             <CircleProgressbar percentage={weeklyPercentage} description="Weekly achievements completed" />
             <CircleProgressbar percentage={monthlyPercentage} description="Monthly achievements completed" />
             <CircleProgressbar percentage={yearlyPercentage} description="Yearly achievements completed" />
