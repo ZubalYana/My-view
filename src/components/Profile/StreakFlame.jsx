@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import StreakCalendarModal from "./StreakCalendarModal";
 import { Flame, FlameKindling } from "lucide-react";
 import { Box } from "@mui/material";
+import StreakExplanationModal from "./StreakExplanationModal";
 
-export default function StreakFlame({ lastUpdated, current, longest, activeDates }) {
+export default function StreakFlame({ lastUpdated, current, longest }) {
     const [status, setStatus] = useState("dead");
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         const today = new Date();
@@ -25,65 +25,58 @@ export default function StreakFlame({ lastUpdated, current, longest, activeDates
     }, [lastUpdated]);
 
 
-    const animation = {
-        active: "/activeFlame.webm",
-        smoulder: "/smoulderFlame.webm",
-        dead: "/smoulderFlame.webm",
-    };
-
     const isCurrentLongest = current === longest && current > 0;
 
     return (
-        <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl p-3 absolute top-4 right-4'
-            onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>
-            <div className="flex flex-col items-center text-center">
-                <div
-                    style={{
-                        width: "120px",
-                        height: "80px",
-                        overflow: "hidden",
-                        borderRadius: "12px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: 2,
-                            bgcolor: "#7F3CE0",
+        <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl absolute top-4 right-4'>
+            <div className="w-[100%] h-[100%] relative p-3">
+                <div className="w-[15px] h-[15px] rounded-full border-[2px] border-[#F5F5F5] absolute top-2 right-2 flex justify-center items-center cursor-pointer text-[10px] text-[#f5f5f5]" onClick={() => setIsOpen(true)}>?</div>
+                <div className="flex flex-col items-center text-center">
+                    <div
+                        style={{
+                            width: "120px",
+                            height: "80px",
+                            overflow: "hidden",
+                            borderRadius: "12px",
                             display: "flex",
-                            alignItems: "center",
                             justifyContent: "center",
+                            alignItems: "center",
                         }}
                     >
-                        {status === "active" && <Flame color="#FF9100" size={48} />}
-                        {status === "smoulder" && <Flame color="#FFCC80" size={48} style={{ opacity: 0.6 }} />}
-                        {status === "dead" && <FlameKindling color="#B0BEC5" size={48} />}
-                    </Box>
+                        <Box
+                            sx={{
+                                width: 80,
+                                height: 80,
+                                borderRadius: 2,
+                                bgcolor: "#7F3CE0",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            {status === "active" && <Flame color="#FF9100" size={48} />}
+                            {status === "smoulder" && <Flame color="#FFCC80" size={48} style={{ opacity: 0.6 }} />}
+                            {status === "dead" && <FlameKindling color="#B0BEC5" size={48} />}
+                        </Box>
 
-                </div>
+                    </div>
 
-                <span
-                    className="font-medium text-[16px] text-[#F5F5F5] mt-2"
-                >
-                    <span className="font-bold">{current}</span>-day streak <br />
-                    {isCurrentLongest && " ( Longest! )"}
-                </span>
-
-                {!isCurrentLongest && longest > 0 && (
-                    <span className="text-sm text-gray-400">
-                        Longest streak: <span className="font-semibold">{longest}</span>
+                    <span
+                        className="font-medium text-[16px] text-[#F5F5F5] mt-2"
+                    >
+                        <span className="font-bold">{current}</span>-day streak <br />
+                        {isCurrentLongest && " ( Longest! )"}
                     </span>
-                )}
+
+                    {!isCurrentLongest && longest > 0 && (
+                        <span className="text-sm text-gray-400">
+                            Longest streak: <span className="font-semibold">{longest}</span>
+                        </span>
+                    )}
+                </div>
             </div>
-            <StreakCalendarModal
-                open={open}
-                onClose={() => setOpen(false)}
-                activeDates={activeDates}
-            />
+
+            <StreakExplanationModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
 
     );

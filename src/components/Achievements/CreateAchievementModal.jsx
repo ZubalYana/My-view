@@ -71,8 +71,6 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
         checkTelegram();
     }, []);
 
-
-
     const handleSubmit = async () => {
         try {
             if (formData.reminderDays.length && formData.reminderTime && !isTelegramConnected) {
@@ -126,9 +124,6 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
         }
 
     };
-
-
-
     return (
         <Modal
             isOpen={isOpen}
