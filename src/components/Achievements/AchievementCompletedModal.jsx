@@ -30,30 +30,31 @@ export default function AchievementCompletedModal({ open, onClose, achievement }
             }}
         >
             <DialogContent>
-                <h2 className="text-2xl font-bold text-[#121212] mb-2 w-full flex justify-center">
+                <h2 className="text-[16px] text-center font-bold text-[#121212] mb-2 w-full flex justify-center lg:text-[24px]">
                     <PartyPopper className="mr-2 text-[#5A00DA]" />
                     ACHIEVEMENT COMPLETED!
                     <PartyPopper className="ml-2 text-[#5A00DA]" />
                 </h2>
-
-                <p className="text-base mb-1 w-full flex justify-center">
-                    You successfully made it: {" "}
+                <p className="text-base text-center mb-1 w-full px-2">
+                    You successfully made it:
                     <span className="text-[#5A00DA] font-semibold ml-1">
                         {repetitions} {actionName}
                     </span>
                     !
                 </p>
 
-                <div className=" w-full flex justify-center text-center">
-                    <p className="text-base">
-                        You set the achievement on{" "}
-                        <span className="text-[#5A00DA] font-semibold">{formattedCreatedDate}</span> and completed it on{" "}
-                        <span className="text-[#5A00DA] font-semibold">{formattedCompletedDate}</span>. It took you in total{" "}
-                        <span className="text-[#5A00DA] font-semibold">
-                            {durationInDays === 0 ? "less than a day" : `${durationInDays} day${durationInDays > 1 ? "s" : ""}`}
-                        </span>. Be proud of yourself!
-                    </p>
-                </div>
+                <p className="text-base text-center w-full px-2">
+                    You set the achievement on
+                    <span className="text-[#5A00DA] font-semibold mx-1">{formattedCreatedDate}</span>
+                    and completed it on
+                    <span className="text-[#5A00DA] font-semibold mx-1">{formattedCompletedDate}</span>.
+                    It took you in total
+                    <span className="text-[#5A00DA] font-semibold mx-1">
+                        {durationInDays === 0 ? "less than a day" : `${durationInDays} day${durationInDays > 1 ? "s" : ""}`}
+                    </span>.
+                    Be proud of yourself!
+                </p>
+
             </DialogContent>
         </Dialog>
     );

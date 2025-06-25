@@ -152,7 +152,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                             ) : (
                                 <Edit2 className="w-[20px] mr-2" />
                             )}
-                            {isEditing ? "Cancel Edit" : "Edit Achievement"}
+                            {isEditing ? "Cancel" : "Edit"}
                         </Button>
                         <Button
                             variant="contained"
@@ -167,7 +167,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                             onClick={() => setConfirmOpen(true)}
                         >
                             <Trash2 className="w-[20px] mr-2" />
-                            Delete Achievement
+                            Delete
                         </Button>
 
                     </div>
@@ -276,7 +276,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
                                 }}
                                 onClick={handleEditAchievement}
                             >
-                                Confirm Edit
+                                Confirm
                             </Button>
                             <Button
                                 variant="outlined"
