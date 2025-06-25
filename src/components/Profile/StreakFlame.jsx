@@ -28,7 +28,7 @@ export default function StreakFlame({ lastUpdated, current, longest }) {
     const isCurrentLongest = current === longest && current > 0;
 
     return (
-        <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl absolute top-4 right-4'>
+        <div className='w-[150px] min-h-[160px] h-fit-content bg-[#5A00DA] rounded-xl mt-4 lg:absolute lg:m-0 top-4 right-4'>
             <div className="w-[100%] h-[100%] relative p-3">
                 <div className="w-[15px] h-[15px] rounded-full border-[2px] border-[#F5F5F5] absolute top-2 right-2 flex justify-center items-center cursor-pointer text-[10px] text-[#f5f5f5]" onClick={() => setIsOpen(true)}>?</div>
                 <div className="flex flex-col items-center text-center">

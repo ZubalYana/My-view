@@ -54,7 +54,7 @@ export default function HashtagFocusChart() {
     }, []);
 
     return (
-        <div className="w-[40%] h-[400px] mt-5 bg-white rounded-xl shadow-md p-5">
+        <div className="w-full h-[400px] mt-5 bg-white rounded-xl shadow-md p-5 lg:w-[40%] lg:h-[400px]">
             <h3 className="text-lg font-semibold mb-4 text-[#121212]">Focus by Life Areas</h3>
             <ResponsiveContainer width="100%" height="80%">
                 <PieChart>

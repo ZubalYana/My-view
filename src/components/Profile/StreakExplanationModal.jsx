@@ -1,6 +1,25 @@
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { X } from "lucide-react";
+
 Modal.setAppElement("#root");
+
 export default function StreakExplanationModal({ isOpen, setIsOpen }) {
+    const [modalWidth, setModalWidth] = useState(getWidth());
+
+    function getWidth() {
+        if (typeof window !== "undefined") {
+            return window.innerWidth > 700 ? "45%" : "90%";
+        }
+        return "90%";
+    }
+
+    useEffect(() => {
+        const handleResize = () => setModalWidth(getWidth());
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
         <Modal
             isOpen={isOpen}
@@ -21,32 +40,34 @@ export default function StreakExplanationModal({ isOpen, setIsOpen }) {
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "45%",
+                    width: modalWidth,
                     minHeight: "30%",
                     maxHeight: "90%",
                     height: "fit-content",
-                    overflow: "hidden",
                     overflowY: "auto",
                     borderRadius: "8px",
                     outline: "none",
-                    padding: "35px",
-                    paddingTop: "25px",
+                    padding: 0,
                     backgroundColor: "#fff",
                     color: "var(--custom-black)",
                 },
             }}
         >
-            <h2 className="text-2xl font-semibold">What is a Daily Streak?</h2>
-            <p className="text-[14px] font-light mt-2">A daily streak tracks how consistently you complete at least one of your achievements each day.
-                If you mark any achievement as completed today — your streak continues!
-                But if you miss a day and don’t log any completed achievements, your streak resets back to zero.
-            </p>
-            <h4 className="mt-3 text-xl font-medium">Why it matters:</h4>
-            <ul className="list-disc pl-5 mt-1">
-                <li>It helps build daily habits.</li>
-                <li>It keeps you motivated by showing your consistency.</li>
-                <li>It’s rewarding to watch your streak grow!</li>
-            </ul>
+            <div className="w-full p-[20px] lg:p-[35px] relative">
+                <X className="absolute top-4 right-4 cursor-pointer" onClick={() => setIsOpen(false)} />
+                <h2 className="text-[18px] font-semibold lg:text-2xl">What is a Daily Streak?</h2>
+                <p className="text-[14px] font-light mt-2">
+                    A daily streak tracks how consistently you complete at least one of your achievements each day.
+                    If you mark any achievement as completed today — your streak continues!
+                    But if you miss a day and don’t log any completed achievements, your streak resets back to zero.
+                </p>
+                <h4 className="mt-3 text-[16px] font-medium lg:text-xl">Why it matters:</h4>
+                <ul className="list-disc pl-5 mt-1 text-[14px] lg:text-base">
+                    <li>It helps build daily habits.</li>
+                    <li>It keeps you motivated by showing your consistency.</li>
+                    <li>It’s rewarding to watch your streak grow!</li>
+                </ul>
+            </div>
         </Modal>
-    )
+    );
 }

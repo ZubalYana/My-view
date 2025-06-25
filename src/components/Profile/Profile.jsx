@@ -5,6 +5,7 @@ import { Alert, CircularProgress, Snackbar } from '@mui/material'
 import StreakFlame from './StreakFlame'
 import LevelProgress from './LevelProgress'
 import HashtagFocusChart from './HashtagFocusChart'
+import Burger from '../Burger'
 export default function Profile() {
     const [user, setUser] = useState(null)
     const [uploading, setUploading] = useState(false)
@@ -66,9 +67,10 @@ export default function Profile() {
 
     return (
         <div className='relative'>
+            <Burger />
             <div className="profileInfo flex text-[#121212] items-center">
                 <div
-                    className="avatarLayout w-[105px] h-[105px] rounded-full cursor-pointer overflow-hidden"
+                    className="avatarLayout w-[85px] h-[85px] rounded-full cursor-pointer overflow-hidden lg:w-[105px] lg:h-[105px]"
                     onClick={handleAvatarClick}
                 >
                     {user?.photo ? (
@@ -88,10 +90,10 @@ export default function Profile() {
                         onChange={handleFileChange}
                     />
                 </div>
-                <div className="generalInfo ml-[20px]">
-                    <h2 className='text-2xl font-medium'>{user?.username}</h2>
-                    <p className='text-sm font-light'>{user?.email}</p>
-                    <p className='text-sm font-light mt-[5px]'>
+                <div className="generalInfo ml-[10px] lg:ml-[20px]">
+                    <h2 className='text-xl font-medium lg:text-2xl'>{user?.username}</h2>
+                    <p className='text-[12px] font-light lg:text-sm'>{user?.email}</p>
+                    <p className='text-[12px] font-light mt-[5px] lg:text-sm'>
                         Joined: <span className='font-medium'>{formatDate(user?.createdAt)}</span>
                     </p>
                 </div>
@@ -101,7 +103,6 @@ export default function Profile() {
                     <LevelProgress level={user.level} XP={user.XP} />
                 )}
             </div>
-            <HashtagFocusChart />
             {user?.streak && (
                 <StreakFlame
                     lastUpdated={user.streak.lastUpdated}
@@ -110,6 +111,8 @@ export default function Profile() {
                 />
 
             )}
+            <HashtagFocusChart />
+
             {uploading && (
                 <div className="absolute top-5 right-5">
                     <CircularProgress size={24} color="secondary" />
