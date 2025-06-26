@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { ChevronDown, User, Home, Trophy } from "lucide-react";
 import AnimatedLogo from "../AnimatedLogo/AnimatedLogo";
-import Profile from "../Profile/profile";
 export default function SideMenu() {
   const location = useLocation();
   const [expandedMenu, setExpandedMenu] = useState("Achievements");

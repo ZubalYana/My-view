@@ -8,7 +8,7 @@ import Homepage from './components/Homepage/Homepage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AchievementsPage from './components/Achievements/AchievementsPage';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Profile from './components/Profile/profile';
+import Profile from './components/Profile/Profile';
 const queryClient = new QueryClient();
 
 function App() {
