@@ -1,7 +1,7 @@
 import React from 'react'
 import DynamicGreating from './DynamicGreating'
 import CircularProgressbarsContainer from '../CircularProgressbarsContainer/CircularProgressbarsContainer'
-import TimeLine from './timeLine'
+import TimeLine from './TimeLine'
 import AchievementActivityChart from './AchievementActivityChart'
 import Burger from '../Burger'
 export default function Homepage() {
