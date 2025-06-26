@@ -149,7 +149,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
 
 
     return (
-        <div className="w-full mt-5">
+        <div className="w-full mt-5 relative z-2">
             {filteredAchievements.length === 0 ? (
                 <p>No achievements found for this {type} period.</p>
             ) : (

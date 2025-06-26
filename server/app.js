@@ -10,7 +10,6 @@ const swaggerDocs = require('./swaggerConfig');
 const authRoutes = require('./routes/authRoutes');
 const achievementsRoutes = require('./routes/achievementsRoutes');
 const gamificationRoutes = require('./routes/gamificationRoutes');
-// const telegramRoutes = require("./routes/telegram");
 
 require('./bot.js')
 require('./reminderScheduler.js')
@@ -28,7 +27,6 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/gamification', gamificationRoutes);
-// app.use("/telegram", telegramRoutes);
 
 swaggerDocs(app);
 

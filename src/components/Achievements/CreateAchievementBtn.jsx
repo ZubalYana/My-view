@@ -11,6 +11,7 @@ export default function CreateAchievementBtn({ onClick }) {
                 position: "absolute",
                 bottom: "32px",
                 right: "32px",
+                zIndex: 100,
             }}
         >
             <Button
