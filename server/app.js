@@ -23,10 +23,14 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use(cors());
 app.use(express.json());
-
 app.use('/auth', authRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/gamification', gamificationRoutes);
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+});
 
 swaggerDocs(app);
 
