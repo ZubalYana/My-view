@@ -26,11 +26,12 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/achievements', achievementsRoutes);
 app.use('/gamification', gamificationRoutes);
-app.use(express.static(path.join(__dirname, '../client/build')));
 
+app.use(express.static(path.join(__dirname, '../dist')));
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
+
 
 swaggerDocs(app);
 
