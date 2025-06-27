@@ -3,6 +3,7 @@ const router = express.Router();
 const AchievementModal = require("../models/AchievementModal");
 const authenticateToken = require("../middleware/authMiddleware");
 const updateUserStreak = require("../utils/updateStreak");
+const jwt = require("jsonwebtoken");
 
 function isAchievementExpired(achievement) {
     const now = new Date();
@@ -71,10 +72,19 @@ router.post("/create-achievement", async (req, res) => {
 
 router.get("/get-achievements", async (req, res) => {
     try {
-        const achievements = await AchievementModal.find().populate("user").exec();
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const token = authHeader.split(" ")[1];
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decoded.id;
+
+        const achievements = await AchievementModal.find({ user: userId }).exec();
         res.status(200).json(achievements);
     } catch (error) {
-        console.error(error);
+        console.error("Get achievements error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
