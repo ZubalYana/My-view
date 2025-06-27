@@ -8,7 +8,7 @@ export default function CreateAchievementBtn({ onClick }) {
             sx={{
                 display: "flex",
                 alignItems: "center",
-                position: "absolute",
+                position: "fixed",
                 bottom: "32px",
                 right: "32px",
                 zIndex: 100,

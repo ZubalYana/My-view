@@ -15,6 +15,8 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
     const [isTelegramConnected, setIsTelegramConnected] = useState(false);
     const [showConnectTelegram, setShowConnectTelegram] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [isNarrowScreen, setIsNarrowScreen] = useState(window.innerWidth < 1020);
+
     const initialState = {
         actionName: "",
         repetitions: "",
@@ -122,8 +124,16 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             console.error(error);
             onFeedback("An error occurred. Please try again.", "error");
         }
-
     };
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsNarrowScreen(window.innerWidth < 1020);
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
     return (
         <Modal
             isOpen={isOpen}
@@ -144,7 +154,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: "38%",
+                    width: isNarrowScreen ? "100%" : "38%",
                     minHeight: "50%",
                     maxHeight: "90%",
                     height: "fit-content",
