@@ -6,7 +6,7 @@ const fetchAchievements = async () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
 
-    const response = await fetch("http://localhost:5000/achievements/get-achievements", {
+    const response = await fetch("/achievements/get-achievements", {
         headers: { Authorization: `Bearer ${token}` },
     });
 

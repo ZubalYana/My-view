@@ -28,7 +28,7 @@ export default function HashtagFocusChart() {
         const fetchAchievements = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/achievements/get-achievements", {
+                const res = await axios.get("/achievements/get-achievements", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

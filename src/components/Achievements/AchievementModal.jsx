@@ -29,7 +29,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
     const editAchievement = useMutation({
         mutationFn: async () => {
             const response = await axios.patch(
-                `http://localhost:5000/achievements/edit-achievement/${achievement._id}`,
+                `/achievements/edit-achievement/${achievement._id}`,
                 {
                     actionName: editedActionName,
                     repetitions: editedRepetitions,
@@ -52,7 +52,7 @@ export default function AchievementModal({ open, onClose, achievement, handleChe
 
     const deleteAchievement = useMutation({
         mutationFn: async () => {
-            const response = await axios.delete(`http://localhost:5000/achievements/delete-achievement/${achievement._id}`);
+            const response = await axios.delete(`/achievements/delete-achievement/${achievement._id}`);
             return response.data;
         },
         onSuccess: () => {

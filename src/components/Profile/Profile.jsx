@@ -17,7 +17,7 @@ export default function Profile() {
         const fetchUser = async () => {
             try {
                 const token = localStorage.getItem('token')
-                const res = await axios.get('http://localhost:5000/auth/user', {
+                const res = await axios.get('/auth/user', {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                 setUser(res.data)
@@ -42,7 +42,7 @@ export default function Profile() {
         try {
             setUploading(true)
             const token = localStorage.getItem('token')
-            const res = await axios.post('http://localhost:5000/auth/upload-avatar', formData, {
+            const res = await axios.post('/auth/upload-avatar', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',

@@ -12,7 +12,7 @@ const fetchAchievements = async () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("No token found");
 
-    const response = await fetch("http://localhost:5000/achievements/get-achievements", {
+    const response = await fetch("/achievements/get-achievements", {
         headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -43,7 +43,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
     const updateAchievement = useMutation({
         mutationFn: async ({ id, completedRepetitions }) => {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:5000/achievements/update/${id}`, {
+            const response = await fetch(`/achievements/update/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -103,7 +103,7 @@ export default function AchievementsContainer({ type, onFeedback }) {
 
                         try {
                             await axios.patch(
-                                "http://localhost:5000/gamification/xp",
+                                "/gamification/xp",
                                 { XPToAdd },
                                 {
                                     headers: {

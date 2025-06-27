@@ -10,7 +10,7 @@ export default function DynamicGreating() {
     const { data: user, isLoading, isError, error } = useQuery({
         queryKey: ["user"],
         queryFn: async () => {
-            const response = await fetch("http://localhost:5000/auth/user", {
+            const response = await fetch("/auth/user", {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -61,7 +61,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             if (!token) return;
             const payload = JSON.parse(atob(token.split(".")[1]));
             setUserId(payload.id);
-            const res = await fetch("http://localhost:5000/auth/user", {
+            const res = await fetch("/auth/user", {
                 headers: { Authorization: `Bearer ${token}` },
             });
             if (!res.ok) return;
@@ -84,7 +84,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
             const payload = JSON.parse(atob(token.split(".")[1]));
 
             if (formData.reminderDays.length && formData.reminderTime) {
-                const tgCheck = await fetch("http://localhost:5000/auth/user", {
+                const tgCheck = await fetch("/auth/user", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -101,7 +101,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                 time: formData.reminderTime,
             }));
 
-            const response = await fetch("http://localhost:5000/achievements/create-achievement", {
+            const response = await fetch("/achievements/create-achievement", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -245,7 +245,7 @@ export default function CreateAchievementModal({ isOpen, onClose, type, onFeedba
                             sx={{ mt: 1 }}
                             onClick={async () => {
                                 const token = localStorage.getItem("token");
-                                const res = await fetch("http://localhost:5000/auth/user", {
+                                const res = await fetch("/auth/user", {
                                     headers: { Authorization: `Bearer ${token}` },
                                 });
                                 const user = await res.json();

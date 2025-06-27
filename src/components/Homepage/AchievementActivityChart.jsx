@@ -17,7 +17,7 @@ export default function AchievementActivityChart() {
         const fetchActivity = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const res = await axios.get("http://localhost:5000/achievements/activity", {
+                const res = await axios.get("/achievements/activity", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
